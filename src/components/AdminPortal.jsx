@@ -8,6 +8,7 @@ import {
   assignUserRole
 } from '../services/storage';
 
+import { useLanguage } from '../context/LanguageContext';
 import { TaggingAgentDashboard } from './TaggingAgentDashboard';
 import { PatrolSquadDashboard } from './PatrolSquadDashboard';
 import { PashuMalikDashboard } from './PashuMalikDashboard';
@@ -44,6 +45,7 @@ import {
 } from 'lucide-react';
 
 export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
+  const { t } = useLanguage();
   const [animals, setAnimals] = useState([]);
   const [blankTags, setBlankTags] = useState([]);
   const [complaints, setComplaints] = useState([]);
@@ -319,7 +321,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
           }`}
         >
           <Tag className="w-4 h-4 text-emerald-400" />
-          <span>3. QR इन्वेंट्री बैंक</span>
+          <span>{t('tab_tagging_agent')}</span>
         </button>
 
         <button
