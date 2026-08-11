@@ -1,0 +1,6 @@
+{
+  "appId": "com.pashudhan.gouraksha",
+  "appName": "PashuDhan",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

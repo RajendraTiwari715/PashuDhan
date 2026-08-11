@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PashuDhan</string>
+    <string name="title_activity_main">PashuDhan</string>
+    <string name="package_name">com.pashudhan.gouraksha</string>
+    <string name="custom_url_scheme">com.pashudhan.gouraksha</string>
+</resources>
