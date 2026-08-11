@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, Globe } from 'lucide-react';
-import { LANGUAGE_OPTIONS, speakGuidance } from '../services/voiceGuidance';
+import React from 'react';
+import { Globe } from 'lucide-react';
+import { LANGUAGE_OPTIONS } from '../services/voiceGuidance';
 import { useLanguage } from '../context/LanguageContext';
 
 export const VoiceLanguageSelector = () => {
   const { language, changeLanguage } = useLanguage();
-  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const handleLanguageChange = (e) => {
-    const newLang = e.target.value;
-    changeLanguage(newLang);
-    setIsSpeaking(true);
-    setTimeout(() => setIsSpeaking(false), 4000);
-  };
-
-  const handleSpeakClick = () => {
-    setIsSpeaking(true);
-    speakGuidance('welcome', language);
-    setTimeout(() => setIsSpeaking(false), 4000);
+    changeLanguage(e.target.value);
   };
 
   return (
@@ -34,18 +24,6 @@ export const VoiceLanguageSelector = () => {
           </option>
         ))}
       </select>
-
-      <button
-        onClick={handleSpeakClick}
-        className="p-1 text-emerald-400 hover:text-emerald-300 transition-colors"
-        title="आवाज निर्देश सुनें (Voice Guidance)"
-      >
-        {isSpeaking ? (
-          <Volume2 className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-        ) : (
-          <VolumeX className="w-3.5 h-3.5 text-slate-400" />
-        )}
-      </button>
     </div>
   );
 };

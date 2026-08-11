@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getAnimalByTagId, getBlankTags } from '../services/storage';
 
-import { QrCode, Camera, Search, X, AlertCircle } from 'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { QrCode, Camera, Search, X, AlertCircle, ArrowLeft } from 'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 
 
 
@@ -50,14 +50,19 @@ export const QRScannerModal = ({
     _jsxDEV("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn", children: /*#__PURE__*/
       _jsxDEV("div", { className: "glass-modal w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-700", children: [/*#__PURE__*/
 
-
-        _jsxDEV("button", {
-          onClick: onClose,
-          className: "absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors", children: /*#__PURE__*/
-
-          _jsxDEV(X, { className: "w-5 h-5" }, void 0, false) }, void 0, false
+        _jsxDEV("div", { className: "flex items-center justify-between mb-4 border-b border-slate-800 pb-3", children: [/*#__PURE__*/
+          _jsxDEV("button", {
+            onClick: onClose,
+            className: "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition-colors", children: [/*#__PURE__*/
+            _jsxDEV(ArrowLeft, { className: "w-4 h-4 text-amber-400" }, void 0, false), /*#__PURE__*/
+            _jsxDEV("span", { children: "वापस जाएं (Back)" }, void 0, false)] }, void 0, true
+          ), /*#__PURE__*/
+          _jsxDEV("button", {
+            onClick: onClose,
+            className: "p-1.5 rounded-full text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors", children: /*#__PURE__*/
+            _jsxDEV(X, { className: "w-5 h-5" }, void 0, false) }, void 0, false
+          )] }, void 0, true
         ), /*#__PURE__*/
-
 
         _jsxDEV("div", { className: "text-center mb-6", children: [/*#__PURE__*/
           _jsxDEV("div", { className: "w-12 h-12 mx-auto mb-2 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20", children: /*#__PURE__*/

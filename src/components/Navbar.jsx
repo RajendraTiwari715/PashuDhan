@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { isOnline } from '../services/offlineSync';
 import { VoiceLanguageSelector } from './VoiceLanguageSelector';
-import { VoiceCommandMicButton } from './VoiceCommandMicButton';
 import { useLanguage } from '../context/LanguageContext';
-import { ShieldAlert, QrCode, LogIn, LogOut, Tag, Radio, User, Building2, Cpu, MessageSquare, Bluetooth, Wifi, WifiOff } from 'lucide-react';
+import { ShieldAlert, QrCode, LogIn, LogOut, Tag, Radio, User, Building2, Cpu } from 'lucide-react';
 
 export const Navbar = ({
   session,
@@ -11,8 +10,6 @@ export const Navbar = ({
   onLogout,
   onOpenScanner,
   onOpenAIVision,
-  onOpenWhatsApp,
-  onOpenBluetooth,
   onSearchTag,
   onOpenLinkTagModal,
   setActiveTab
@@ -69,6 +66,8 @@ export const Navbar = ({
     }
   };
 
+  const isAdmin = session?.role === 'admin';
+
   return (
     <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-xl">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -104,45 +103,29 @@ export const Navbar = ({
           {/* Right Action Icons & Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2">
             
-            {/* Voice Mic Button */}
-            <VoiceCommandMicButton
-              onSearchTag={onSearchTag}
-              onOpenScanner={onOpenScanner}
-              onOpenLinkTag={onOpenLinkTagModal}
-              onNavigateHome={() => setActiveTab('home')}
-              onNavigateAdmin={() => setActiveTab('admin')}
-            />
-
             {/* Language Selector */}
             <VoiceLanguageSelector />
 
-            {/* Network Indicator */}
-            <div
-              className={`flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded-full border ${
-                onlineState
-                  ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-                  : 'bg-amber-500/20 text-amber-300 border-amber-500/40 animate-pulse'
-              }`}
-              title={onlineState ? 'ऑनलाइन सर्वर सिंक' : 'ऑफलाइन मोड'}
-            >
-              {onlineState ? (
-                <>
-                  <Wifi className="w-3 h-3 text-emerald-400" />
-                  <span className="hidden sm:inline">Online</span>
-                </>
-              ) : (
-                <>
-                  <WifiOff className="w-3 h-3 text-amber-400" />
-                  <span className="hidden sm:inline">Offline</span>
-                </>
-              )}
-            </div>
+            {/* Online Server Indicator - SHOW ONLY FOR ADMIN */}
+            {isAdmin && (
+              <div
+                className={`flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded-full border ${
+                  onlineState
+                    ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+                    : 'bg-amber-500/20 text-amber-300 border-amber-500/40 animate-pulse'
+                }`}
+                title={onlineState ? 'ऑनलाइन सर्वर सिंक (Admin Only)' : 'ऑफलाइन मोड'}
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span className="hidden sm:inline">Online Server</span>
+              </div>
+            )}
 
             {/* Quick Action Tools */}
             <button
               onClick={onOpenAIVision}
               className="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition-colors"
-              title="AI Cattle Vision"
+              title="AI Vision"
             >
               <Cpu className="w-4 h-4 text-cyan-400" />
               <span className="hidden lg:inline">AI Vision</span>

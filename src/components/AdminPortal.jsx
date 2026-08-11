@@ -105,9 +105,13 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
   };
 
   const handleGenerateNewTag = () => {
+    if (unlinkedTags.length >= 4) {
+      alert('⚠️ इन्वेंट्री में पहले से ही 4 खाली QR टैग उपलब्ध हैं! नए टैग जनरेट करने के लिए पहले इन 4 टैग्स का उपयोग (Link/Use) करें।');
+      return;
+    }
     const newTag = generateNewBlankTag();
     loadData();
-    alert(`नया QR कान टैग "${newTag.tagId}" सफलता पूर्वक जारी किया गया!`);
+    alert(`नया QR कान टैग "${newTag.tagId}" सफलता पूर्वक जारी किया गया! (कुल इन्वेंट्री: ${unlinkedTags.length + 1}/4)`);
   };
 
   const handleSendBroadcast = (e) => {
