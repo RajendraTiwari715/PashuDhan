@@ -1,0 +1,41 @@
+{
+  "blankTags": [
+    { "tagId": "TAG-1001", "isLinked": false, "generatedDate": "2026-08-10" },
+    { "tagId": "TAG-1002", "isLinked": false, "generatedDate": "2026-08-10" },
+    { "tagId": "TAG-1003", "isLinked": true, "generatedDate": "2026-08-09" },
+    { "tagId": "TAG-1004", "isLinked": false, "generatedDate": "2026-08-09" },
+    { "tagId": "TAG-1005", "isLinked": true, "generatedDate": "2026-08-09" }
+  ],
+  "animals": [
+    {
+      "id": "ANM-3001",
+      "tagId": "TAG-1003",
+      "breed": "साहीवाल (Sahiwal)",
+      "color": "लाल-भूरा",
+      "ageYears": 4,
+      "healthStatus": "Healthy",
+      "owner": { "name": "रमेश कुमार पटेल", "phone": "9826145210" },
+      "photos": ["https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80"],
+      "registeredDate": "2026-08-09",
+      "isRegistered": true,
+      "location": { "lat": 23.2599, "lng": 77.4126 },
+      "priorViolationsCount": 1,
+      "activeNotices": []
+    },
+    {
+      "id": "ANM-3002",
+      "tagId": "TAG-1005",
+      "breed": "गौशाला गाय",
+      "color": "काला",
+      "ageYears": 3,
+      "healthStatus": "Good",
+      "owner": { "name": "शिवम सिंह", "phone": "9425088123" },
+      "photos": ["https://images.unsplash.com/photo-1570042707221-a18833919b48?auto=format&fit=crop&w=800&q=80"],
+      "registeredDate": "2026-08-09",
+      "isRegistered": true,
+      "location": { "lat": 23.2647, "lng": 77.4129 },
+      "priorViolationsCount": 0,
+      "activeNotices": []
+    }
+  ]
+}
