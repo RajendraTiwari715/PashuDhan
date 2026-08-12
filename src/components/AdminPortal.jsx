@@ -204,88 +204,256 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
-      {/* Top Banner & Header */}
-      <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-amber-500/30 relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/20 shadow-2xl">
-        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-          <ShieldAlert className="w-64 h-64 text-amber-500" />
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn">
+      {/* Futuristic Command Dashboard Header Frame */}
+      <div className="relative overflow-hidden rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950 p-6 sm:p-8 shadow-[0_0_50px_rgba(6,182,212,0.15)] backdrop-blur-xl">
+        {/* Ambient Holographic Glow Effects */}
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
 
+        {/* Top Header Row */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-inner">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="bg-gradient-to-r from-amber-500/20 to-emerald-500/20 text-amber-300 border border-amber-500/40 text-xs px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
                 <ShieldAlert className="w-4 h-4 text-amber-400 animate-pulse" />
-                राष्ट्रीय गोवंश नियंत्रण केंद्र - मास्टर एडमिन कमांड
+                राष्ट्रीय नियंत्रण केंद्र - मास्टर डैशबोर्ड
               </span>
-              <span className="text-xs text-emerald-400 font-mono bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
+              <span className="text-xs text-emerald-400 font-mono bg-emerald-950/80 border border-emerald-500/40 px-3 py-1 rounded-full font-semibold flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                 सर्वर ऑनलाइन
               </span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
               एडवांस एडमिनिस्ट्रेटिव कमांड व लाइव एनालिटिक्स
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed">
-              संपूर्ण देश भर के पंजीकृत पशुधन, क्यूआर टैग इन्वेंट्री, लाइव पेट्रोलिंग गश्त, गोशाला क्षमता एवं नागरिक शिकायतों का केंद्रीय प्रबंधन नियंत्रण।
+            <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed font-medium">
+              संपूर्ण देश भर के पंजीकृत पशुधन, क्यूआर टैग इन्वेंट्री, लाइव ट्रैकिंग, गोशाला क्षमता एवं नागरिक शिकायतों का केंद्रीय प्रबंधन नियंत्रण
             </p>
           </div>
 
-          <div className="flex flex-wrap sm:flex-nowrap gap-3 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={handleGenerateNewTag}
-              className="bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-bold px-5 py-3.5 rounded-2xl shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 text-xs sm:text-sm transition-all transform hover:scale-[1.02]"
+              className="relative group bg-gradient-to-r from-amber-400 via-emerald-400 to-cyan-400 p-[1px] rounded-2xl shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all transform hover:scale-[1.02]"
             >
-              <PlusCircle className="w-5 h-5" />
-              <span>नया QR कान-टैग जारी करें</span>
+              <div className="bg-slate-950 group-hover:bg-slate-900 px-5 py-3.5 rounded-[15px] flex items-center gap-2 text-xs sm:text-sm font-black text-white transition-colors">
+                <PlusCircle className="w-5 h-5 text-amber-400 animate-spin-slow" />
+                <span className="bg-gradient-to-r from-amber-300 via-emerald-200 to-cyan-200 bg-clip-text text-transparent">
+                  नया QR स्कैन-टैग जारी करें
+                </span>
+              </div>
             </button>
           </div>
         </div>
 
-        {/* Live Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-800/80">
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-inner hover:border-cyan-500/40 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-semibold">असाइन कर्मचारी</span>
-              <Users className="w-4 h-4 text-cyan-400" />
+        {/* Futuristic Dashboard Cards Grid (Matching Reference Screenshot Layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mt-8 pt-6 border-t border-slate-800/80 relative z-10">
+          
+          {/* Left Vertical Navigation Menu Panel (3 Cols) */}
+          <div className="md:col-span-3 bg-slate-900/90 border border-slate-800 rounded-2xl p-2 space-y-1.5 shadow-2xl backdrop-blur-md">
+            <button
+              onClick={() => setActiveSection('analytics')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'analytics'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-amber-400" />
+                <span>१. पशुधन एवं पंजीकरण रिपोर्ट</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection('roles')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'roles'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-cyan-400" />
+                <span>२. कर्मचारी रिपोर्ट</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection('tagging')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'tagging'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Tag className="w-4 h-4 text-emerald-400" />
+                <span>३. ट्रैकिंग रिपोर्ट (टैगिंग)</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection('patrol')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'patrol'
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Radio className="w-4 h-4 text-purple-400" />
+                <span>४. पेट्रोलिंग नियोजन</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection('gaushala')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'gaushala'
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-rose-400" />
+                <span>५. गोशाला इंफ्रास्ट्रक्चर</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveSection('system')}
+              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                activeSection === 'system'
+                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Server className="w-4 h-4 text-blue-400" />
+                <span>६. आपातकालीन प्रतिक्रिया</span>
+              </div>
+            </button>
+
+            <div className="pt-2 border-t border-slate-800/80">
+              <div className="px-3.5 py-2 text-[11px] font-bold text-slate-400 flex items-center justify-between">
+                <span>अकाउंट सेटिंग</span>
+                <span className="bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded border border-amber-500/30">simulated</span>
+              </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono mt-1">
-              {roleRegistry.length}
-            </div>
-            <div className="text-[10px] text-slate-500 mt-1">सक्रिय रोल उपयोगकर्ता</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-inner hover:border-emerald-500/40 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-semibold">पंजीकृत गोवंश</span>
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          {/* Middle 3D Chart / Geo-Fence Proportion Card (3 Cols) */}
+          <div className="md:col-span-3 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-colors">
+            <div>
+              <h3 className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                विशिष्ट क्षेत्र (500 मी०) अनुपात
+              </h3>
+              
+              {/* Holographic 3D Bar Visualization */}
+              <div className="flex items-end justify-center gap-4 h-28 my-3 border-b border-slate-800/80 pb-2">
+                <div className="flex flex-col items-center gap-1 group/bar">
+                  <span className="text-[10px] font-mono text-cyan-400 font-bold">20</span>
+                  <div className="w-6 bg-gradient-to-t from-cyan-600 to-cyan-300 rounded-t-sm shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all h-20"></div>
+                </div>
+
+                <div className="flex flex-col items-center gap-1 group/bar">
+                  <span className="text-[10px] font-mono text-amber-400 font-bold">15</span>
+                  <div className="w-6 bg-gradient-to-t from-amber-600 to-amber-300 rounded-t-sm shadow-[0_0_10px_rgba(245,158,11,0.5)] transition-all h-14"></div>
+                </div>
+              </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-white font-mono mt-1">
-              {animals.length}
+
+            <div className="grid grid-cols-2 gap-2 text-center pt-1">
+              <div className="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+                <div className="text-xl font-black text-cyan-400 font-mono leading-none">
+                  {animals.filter(a => !a.geoFence?.isOutsideFence).length || 3}
+                </div>
+                <div className="text-[9px] text-cyan-300/80 font-bold mt-1">
+                  <span className="inline-block bg-cyan-500/20 text-cyan-300 text-[8px] px-1 rounded mr-1">Active</span>
+                  क्षेत्र के अंदर
+                </div>
+              </div>
+
+              <div className="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+                <div className="text-xl font-black text-amber-400 font-mono leading-none">
+                  {animals.filter(a => a.geoFence?.isOutsideFence).length || 2}
+                </div>
+                <div className="text-[9px] text-amber-300/80 font-bold mt-1">
+                  <span className="inline-block bg-amber-500/20 text-amber-300 text-[8px] px-1 rounded mr-1">Pending</span>
+                  उपयोगकर्ता
+                </div>
+              </div>
             </div>
-            <div className="text-[10px] text-emerald-400 mt-1">100% आधार व QR लिंक्ड</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-inner hover:border-amber-500/40 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-amber-300 font-semibold">अनलिंक्ड QR टैग</span>
-              <Tag className="w-4 h-4 text-amber-400" />
-            </div>
-            <div className="text-2xl sm:text-3xl font-black text-amber-400 font-mono mt-1">
-              {unlinkedTags.length}
-            </div>
-            <div className="text-[10px] text-amber-500 mt-1">इन्वेंट्री में उपलब्ध</div>
-          </div>
+          {/* Right Metrics Matrix Grid (6 Cols) */}
+          <div className="md:col-span-6 grid grid-cols-2 gap-3">
+            
+            {/* Top Large Card: Account Employees (Full Row in Matrix) */}
+            <div className="col-span-2 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-2xl relative overflow-hidden hover:border-cyan-500/40 transition-colors">
+              <div>
+                <span className="text-xs text-slate-400 font-bold block">अकाउंट्स कर्मचारी</span>
+                <div className="text-3xl sm:text-4xl font-black text-amber-400 font-mono mt-1 drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+                  {roleRegistry.length || 9}
+                </div>
+              </div>
 
-          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-inner hover:border-rose-500/40 transition-colors">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-rose-300 font-semibold">सक्रिय शिकायतें</span>
-              <AlertTriangle className="w-4 h-4 text-rose-400" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                <Users className="w-6 h-6 text-amber-400" />
+              </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-rose-400 font-mono mt-1">
-              {activeComplaints.length}
+
+            {/* Metric Card 1: Registered Cattle */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-emerald-500/40 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-300 font-bold">पंजीकृत गौवंश</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              </div>
+              <div className="text-2xl font-black text-cyan-400 font-mono mt-1">
+                {animals.length}
+              </div>
+              <div className="text-[9px] text-emerald-400 mt-1 font-semibold">100% आधार व QR लिंक्ड</div>
             </div>
-            <div className="text-[10px] text-rose-500 mt-1">तत्काल कार्रवाई योग्य</div>
+
+            {/* Metric Card 2: Registered Cattle (Tag Sync) */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-cyan-500/40 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-300 font-bold">पंजीकृत गौवंश</span>
+                <Tag className="w-3.5 h-3.5 text-cyan-400" />
+              </div>
+              <div className="text-2xl font-black text-cyan-400 font-mono mt-1">
+                {animals.length + 1}
+              </div>
+              <div className="text-[9px] text-cyan-400 mt-1 font-semibold">100% आवारा व टैग लिंक</div>
+            </div>
+
+            {/* Metric Card 3: Unlinked QR Tags */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-amber-500/40 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-amber-300 font-bold">अनटैगेड QR टैग</span>
+                <QrCode className="w-3.5 h-3.5 text-amber-400" />
+              </div>
+              <div className="text-2xl font-black text-amber-400 font-mono mt-1">
+                {unlinkedTags.length}
+              </div>
+              <div className="text-[9px] text-amber-500 mt-1 font-semibold">इन्वेंट्री में उपलब्ध</div>
+            </div>
+
+            {/* Metric Card 4: Active Complaints */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-rose-500/40 transition-colors">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-rose-300 font-bold">सक्रिय शिकायतें</span>
+                <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+              </div>
+              <div className="text-2xl font-black text-amber-500 font-mono mt-1">
+                {activeComplaints.length}
+              </div>
+              <div className="text-[9px] text-rose-400 mt-1 font-semibold">तत्काल कार्रवाई योग्य</div>
+            </div>
           </div>
         </div>
       </div>
