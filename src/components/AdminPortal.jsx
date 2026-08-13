@@ -41,7 +41,8 @@ import {
   Server,
   MapPin,
   Flame,
-  BarChart3
+  BarChart3,
+  QrCode
 } from 'lucide-react';
 
 export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
