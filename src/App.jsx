@@ -211,7 +211,7 @@ export function App() {
   };
 
   return (/*#__PURE__*/
-    _jsxDEV("div", { className: "min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white", children: [/*#__PURE__*/
+    _jsxDEV("div", { className: "min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-500 selection:text-white", children: [/*#__PURE__*/
 
 
       _jsxDEV(Navbar, {
@@ -250,10 +250,10 @@ export function App() {
       ), /*#__PURE__*/
 
 
-      _jsxDEV("footer", { className: "bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-400", children: /*#__PURE__*/
+      _jsxDEV("footer", { className: "bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500", children: /*#__PURE__*/
         _jsxDEV("div", { className: "max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4", children: [/*#__PURE__*/
           _jsxDEV("div", { children: [/*#__PURE__*/
-            _jsxDEV("p", { className: "font-semibold text-slate-300", children: "पशु-धन (PashuDhan) - राष्ट्रीय डिजिटल सनातनी गोवंश रक्षा एवं रेस्क्यू पोर्टल" }, void 0, false
+            _jsxDEV("p", { className: "font-semibold text-slate-700", children: "पशु-धन (PashuDhan) - राष्ट्रीय डिजिटल सनातनी गोवंश रक्षा एवं रेस्क्यू पोर्टल" }, void 0, false
 
             ), /*#__PURE__*/
             _jsxDEV("p", { className: "text-[11px] text-slate-400 mt-0.5", children: "भूमिका आधारित डैशबोर्ड, QR कान टैग मैपिंग एवं स्वतः पशु विभाग अलर्ट प्रणाली" }, void 0, false

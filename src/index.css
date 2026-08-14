@@ -18,7 +18,8 @@
     padding-top: var(--sat);
     padding-bottom: var(--sab);
     -webkit-overflow-scrolling: touch;
-    background-color: #090d16;
+    background-color: #f8fafc; /* slate-50 light professional background */
+    color: #1e293b; /* slate-800 default text */
   }
 }
 
@@ -39,17 +40,20 @@
   box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.35);
 }
 
-/* Glassmorphism UI tokens */
+/* Glassmorphism UI tokens for Light Theme */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8); /* slate-200 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .glass-modal {
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(203, 213, 225, 0.5); /* slate-300 */
 }
 
 /* Keyframe animations */

@@ -9,6 +9,7 @@ import {
 } from '../services/storage';
 
 import { useLanguage } from '../context/LanguageContext';
+import { Analytics } from './Analytics';
 import { TaggingAgentDashboard } from './TaggingAgentDashboard';
 import { PatrolSquadDashboard } from './PatrolSquadDashboard';
 import { PashuMalikDashboard } from './PashuMalikDashboard';
@@ -206,517 +207,159 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn">
-      {/* Futuristic Command Dashboard Header Frame */}
-      <div className="relative overflow-hidden rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950 p-6 sm:p-8 shadow-[0_0_50px_rgba(6,182,212,0.15)] backdrop-blur-xl">
-        {/* Ambient Holographic Glow Effects */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
-
-        {/* Top Header Row */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+      {/* Clean Admin Header */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-gradient-to-r from-amber-500/20 to-emerald-500/20 text-amber-300 border border-amber-500/40 text-xs px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                <ShieldAlert className="w-4 h-4 text-amber-400 animate-pulse" />
-                राष्ट्रीय नियंत्रण केंद्र - मास्टर डैशबोर्ड
+              <span className="bg-amber-50 text-amber-600 border border-amber-200 text-xs px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5">
+                <ShieldAlert className="w-4 h-4" />
+                मास्टर डैशबोर्ड
               </span>
-              <span className="text-xs text-emerald-400 font-mono bg-emerald-950/80 border border-emerald-500/40 px-3 py-1 rounded-full font-semibold flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span className="text-xs text-emerald-600 font-mono bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                 सर्वर ऑनलाइन
               </span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
-              एडवांस एडमिनिस्ट्रेटिव कमांड व लाइव एनालिटिक्स
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">
+              एडमिन पोर्टल
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed font-medium">
-              संपूर्ण देश भर के पंजीकृत पशुधन, क्यूआर टैग इन्वेंट्री, लाइव ट्रैकिंग, गोशाला क्षमता एवं नागरिक शिकायतों का केंद्रीय प्रबंधन नियंत्रण
-            </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={handleGenerateNewTag}
-              className="relative group bg-gradient-to-r from-amber-400 via-emerald-400 to-cyan-400 p-[1px] rounded-2xl shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all transform hover:scale-[1.02]"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3.5 rounded-2xl flex items-center gap-2 text-sm font-black transition-colors shadow-sm"
             >
-              <div className="bg-slate-950 group-hover:bg-slate-900 px-5 py-3.5 rounded-[15px] flex items-center gap-2 text-xs sm:text-sm font-black text-white transition-colors">
-                <PlusCircle className="w-5 h-5 text-amber-400 animate-spin-slow" />
-                <span className="bg-gradient-to-r from-amber-300 via-emerald-200 to-cyan-200 bg-clip-text text-transparent">
-                  नया QR स्कैन-टैग जारी करें
-                </span>
-              </div>
+              <PlusCircle className="w-5 h-5" />
+              <span>नया QR टैग जारी करें</span>
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Futuristic Dashboard Cards Grid (Matching Reference Screenshot Layout) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mt-8 pt-6 border-t border-slate-800/80 relative z-10">
-          
-          {/* Left Vertical Navigation Menu Panel (3 Cols) */}
-          <div className="md:col-span-3 bg-slate-900/90 border border-slate-800 rounded-2xl p-2 space-y-1.5 shadow-2xl backdrop-blur-md">
+      {/* Grid of Admin Services (Umang Style) */}
+      {activeSection === 'analytics' && (
+        <>
+          <h2 className="text-base font-bold text-slate-800 px-1">प्रशासनिक सेवाएँ</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <button
               onClick={() => setActiveSection('analytics')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'analytics'
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-blue-50/50 p-6 rounded-3xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-amber-400" />
-                <span>१. पशुधन एवं पंजीकरण रिपोर्ट</span>
+              <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <BarChart3 className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">एनालिटिक्स</span>
             </button>
 
             <button
               onClick={() => setActiveSection('roles')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'roles'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-cyan-400" />
-                <span>२. कर्मचारी रिपोर्ट</span>
+              <div className="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Users className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">कर्मचारी प्रबंधन</span>
             </button>
 
             <button
               onClick={() => setActiveSection('tagging')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'tagging'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <Tag className="w-4 h-4 text-emerald-400" />
-                <span>३. ट्रैकिंग रिपोर्ट (टैगिंग)</span>
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Tag className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">टैगिंग नियंत्रण</span>
             </button>
 
             <button
               onClick={() => setActiveSection('patrol')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'patrol'
-                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <Radio className="w-4 h-4 text-purple-400" />
-                <span>४. पेट्रोलिंग नियोजन</span>
+              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Radio className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">पेट्रोलिंग</span>
             </button>
 
             <button
               onClick={() => setActiveSection('gaushala')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'gaushala'
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-rose-400" />
-                <span>५. गोशाला इंफ्रास्ट्रक्चर</span>
+              <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Building2 className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">गोशाला</span>
             </button>
 
             <button
               onClick={() => setActiveSection('system')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
-                activeSection === 'system'
-                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
+              className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow group"
             >
-              <div className="flex items-center gap-2">
-                <Server className="w-4 h-4 text-blue-400" />
-                <span>६. आपातकालीन प्रतिक्रिया</span>
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Server className="w-7 h-7" />
               </div>
+              <span className="font-bold text-sm text-slate-700 text-center">सिस्टम</span>
             </button>
-
-            <div className="pt-2 border-t border-slate-800/80">
-              <div className="px-3.5 py-2 text-[11px] font-bold text-slate-400 flex items-center justify-between">
-                <span>अकाउंट सेटिंग</span>
-                <span className="bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded border border-amber-500/30">simulated</span>
-              </div>
-            </div>
           </div>
+        </>
+      )}
 
-          {/* Middle 3D Chart / Geo-Fence Proportion Card (3 Cols) */}
-          <div className="md:col-span-3 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-colors">
-            <div>
-              <h3 className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                विशिष्ट क्षेत्र (500 मी०) अनुपात
-              </h3>
-              
-              {/* Holographic 3D Bar Visualization */}
-              <div className="flex items-end justify-center gap-4 h-28 my-3 border-b border-slate-800/80 pb-2">
-                <div className="flex flex-col items-center gap-1 group/bar">
-                  <span className="text-[10px] font-mono text-cyan-400 font-bold">20</span>
-                  <div className="w-6 bg-gradient-to-t from-cyan-600 to-cyan-300 rounded-t-sm shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all h-20"></div>
-                </div>
-
-                <div className="flex flex-col items-center gap-1 group/bar">
-                  <span className="text-[10px] font-mono text-amber-400 font-bold">15</span>
-                  <div className="w-6 bg-gradient-to-t from-amber-600 to-amber-300 rounded-t-sm shadow-[0_0_10px_rgba(245,158,11,0.5)] transition-all h-14"></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-center pt-1">
-              <div className="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                <div className="text-xl font-black text-cyan-400 font-mono leading-none">
-                  {animals.filter(a => !a.geoFence?.isOutsideFence).length || 3}
-                </div>
-                <div className="text-[9px] text-cyan-300/80 font-bold mt-1">
-                  <span className="inline-block bg-cyan-500/20 text-cyan-300 text-[8px] px-1 rounded mr-1">Active</span>
-                  क्षेत्र के अंदर
-                </div>
-              </div>
-
-              <div className="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                <div className="text-xl font-black text-amber-400 font-mono leading-none">
-                  {animals.filter(a => a.geoFence?.isOutsideFence).length || 2}
-                </div>
-                <div className="text-[9px] text-amber-300/80 font-bold mt-1">
-                  <span className="inline-block bg-amber-500/20 text-amber-300 text-[8px] px-1 rounded mr-1">Pending</span>
-                  उपयोगकर्ता
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Metrics Matrix Grid (6 Cols) */}
-          <div className="md:col-span-6 grid grid-cols-2 gap-3">
-            
-            {/* Top Large Card: Account Employees (Full Row in Matrix) */}
-            <div className="col-span-2 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-2xl relative overflow-hidden hover:border-cyan-500/40 transition-colors">
-              <div>
-                <span className="text-xs text-slate-400 font-bold block">अकाउंट्स कर्मचारी</span>
-                <div className="text-3xl sm:text-4xl font-black text-amber-400 font-mono mt-1 drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
-                  {roleRegistry.length || 9}
-                </div>
-              </div>
-
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                <Users className="w-6 h-6 text-amber-400" />
-              </div>
-            </div>
-
-            {/* Metric Card 1: Registered Cattle */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-emerald-500/40 transition-colors">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-300 font-bold">पंजीकृत गौवंश</span>
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <div className="text-2xl font-black text-cyan-400 font-mono mt-1">
-                {animals.length}
-              </div>
-              <div className="text-[9px] text-emerald-400 mt-1 font-semibold">100% आधार व QR लिंक्ड</div>
-            </div>
-
-            {/* Metric Card 2: Registered Cattle (Tag Sync) */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-cyan-500/40 transition-colors">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-slate-300 font-bold">पंजीकृत गौवंश</span>
-                <Tag className="w-3.5 h-3.5 text-cyan-400" />
-              </div>
-              <div className="text-2xl font-black text-cyan-400 font-mono mt-1">
-                {animals.length + 1}
-              </div>
-              <div className="text-[9px] text-cyan-400 mt-1 font-semibold">100% आवारा व टैग लिंक</div>
-            </div>
-
-            {/* Metric Card 3: Unlinked QR Tags */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-amber-500/40 transition-colors">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-amber-300 font-bold">अनटैगेड QR टैग</span>
-                <QrCode className="w-3.5 h-3.5 text-amber-400" />
-              </div>
-              <div className="text-2xl font-black text-amber-400 font-mono mt-1">
-                {unlinkedTags.length}
-              </div>
-              <div className="text-[9px] text-amber-500 mt-1 font-semibold">इन्वेंट्री में उपलब्ध</div>
-            </div>
-
-            {/* Metric Card 4: Active Complaints */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-2xl hover:border-rose-500/40 transition-colors">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-rose-300 font-bold">सक्रिय शिकायतें</span>
-                <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-              </div>
-              <div className="text-2xl font-black text-amber-500 font-mono mt-1">
-                {activeComplaints.length}
-              </div>
-              <div className="text-[9px] text-rose-400 mt-1 font-semibold">तत्काल कार्रवाई योग्य</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Tabs for Admin Sections */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto no-scrollbar">
-        <button
-          onClick={() => setActiveSection('analytics')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'analytics'
-              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <BarChart3 className="w-4 h-4 text-amber-400" />
-          <span>1. लाइव एनालिटिक्स एवं रिपोर्ट</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('roles')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'roles'
-              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <Users className="w-4 h-4 text-cyan-400" />
-          <span>2. कर्मचारी रोल प्रबंधन</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('tagging')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'tagging'
-              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <Tag className="w-4 h-4 text-emerald-400" />
-          <span>{t('tab_tagging_agent')}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('patrol')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'patrol'
-              ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <Radio className="w-4 h-4 text-purple-400" />
-          <span>4. पेट्रोलिंग नियंत्रण</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('gaushala')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'gaushala'
-              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <Building2 className="w-4 h-4 text-rose-400" />
-          <span>5. गोशाला इन्फ्रास्ट्रक्चर</span>
-        </button>
-
-        <button
-          onClick={() => setActiveSection('system')}
-          className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
-            activeSection === 'system'
-              ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-lg'
-              : 'text-slate-400 hover:bg-slate-800/60'
-          }`}
-        >
-          <Server className="w-4 h-4 text-blue-400" />
-          <span>6. आपातकालीन ब्रॉडकास्ट</span>
-        </button>
-      </div>
-
-      {/* SECTION 1: LIVE ANALYTICS & INSIGHTS */}
+      {/* Overview Analytics Details (Only show when Analytics is active) */}
       {activeSection === 'analytics' && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Health & Vaccination Status Card */}
-            <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-emerald-400" />
-                  स्वास्थ्य एवं टीकाकरण स्थिति
-                </h3>
-                <span className="text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">
-                  Realtime
-                </span>
-              </div>
-              <div className="space-y-3 pt-2">
-                <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1">
-                    <span>100% स्वस्थ एवं टीकाकृत</span>
-                    <span className="text-white font-mono font-bold">85%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500 w-[85%] rounded-full"></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1">
-                    <span>चिकित्सा उपचाराधीन</span>
-                    <span className="text-amber-400 font-mono font-bold">10%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 w-[10%] rounded-full"></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1">
-                    <span>गंभीर / आइसोलेशन में</span>
-                    <span className="text-rose-400 font-mono font-bold">5%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-rose-500 w-[5%] rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Geo-Fence Compliance Metric */}
-            <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-cyan-400" />
-                  जिओ-फेंस (500m) अनुपालन
-                </h3>
-                <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono">
-                  GPS Active
-                </span>
-              </div>
-
-              <div className="flex items-center justify-around py-2">
-                <div className="text-center">
-                  <div className="text-3xl font-black text-emerald-400 font-mono">
-                    {animals.filter(a => !a.geoFence?.isOutsideFence).length}
-                  </div>
-                  <div className="text-[10px] text-slate-400 mt-1">फेंस के अंदर (Safe)</div>
-                </div>
-
-                <div className="h-10 w-px bg-slate-800"></div>
-
-                <div className="text-center">
-                  <div className="text-3xl font-black text-rose-400 font-mono">
-                    {animals.filter(a => a.geoFence?.isOutsideFence).length}
-                  </div>
-                  <div className="text-[10px] text-rose-400 font-bold mt-1">उल्लंघन (Alert)</div>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-                <span>स्वचालित सायरन अलर्ट:</span>
-                <span className="text-emerald-400 font-bold">सक्रिय (Auto Trigger)</span>
-              </div>
-            </div>
-
-            {/* Quick Action Simulator Launcher */}
-            <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4 bg-gradient-to-b from-slate-900 to-slate-950">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-amber-400" />
-                  क्विक रोल सिमुलेटर
-                </h3>
-                <span className="text-[10px] text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded-full font-mono">
-                  Simulate
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">
-                बिना अकाउंट स्विच किए किसी भी रोल के इंटरफेस की त्वरित जांच करें:
-              </p>
-
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <button
-                  onClick={() => { setInspectedRole('tagging_agent'); setInspectedPhone('9826011111'); }}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-emerald-300 font-bold text-left flex items-center gap-1.5"
-                >
-                  <Tag className="w-3.5 h-3.5" />
-                  टैगिंग एजेंट
-                </button>
-
-                <button
-                  onClick={() => { setInspectedRole('patrol_squad'); setInspectedPhone('9826022222'); }}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-cyan-300 font-bold text-left flex items-center gap-1.5"
-                >
-                  <Radio className="w-3.5 h-3.5" />
-                  पेट्रोलिंग स्क्वाड
-                </button>
-
-                <button
-                  onClick={() => { setInspectedRole('gaushala_manager'); setInspectedPhone('9826033333'); }}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-rose-300 font-bold text-left flex items-center gap-1.5"
-                >
-                  <Building2 className="w-3.5 h-3.5" />
-                  गोशाला मैनेजर
-                </button>
-
-                <button
-                  onClick={() => { setInspectedRole('pashu_malik'); setInspectedPhone('9826145210'); }}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-blue-300 font-bold text-left flex items-center gap-1.5"
-                >
-                  <User className="w-3.5 h-3.5" />
-                  पशुपालक
-                </button>
-              </div>
-            </div>
-          </div>
+        <div className="mt-6">
+          <Analytics />
         </div>
       )}
 
       {/* SECTION 2: ROLES & USER MANAGEMENT */}
       {activeSection === 'roles' && (
-        <div className="space-y-6">
+        <div className="space-y-6 mt-8">
+          <button onClick={() => setActiveSection('analytics')} className="text-blue-600 text-sm font-bold mb-4 flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> डैशबोर्ड पर वापस जाएँ</button>
           {/* New User Role Registration */}
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <UserPlus className="w-5 h-5 text-amber-400" />
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 space-y-4 shadow-sm">
+            <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
+              <UserPlus className="w-5 h-5 text-emerald-600" />
               <span>नया कर्मचारी / अधिकारी पंजीकृत करें</span>
             </h3>
 
             {roleSuccessMsg && (
-              <div className="p-3 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center gap-2 font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 <span>{roleSuccessMsg}</span>
               </div>
             )}
 
             <form onSubmit={handleAssignRoleSubmit} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">कर्मचारी का नाम</label>
+                <label className="block text-xs font-semibold text-slate-600 mb-1.5">कर्मचारी का नाम</label>
                 <input
                   type="text"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="उदा. विक्रम सिंह"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-xs focus:border-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-xs focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">मोबाइल नंबर</label>
+                <label className="block text-xs font-semibold text-slate-600 mb-1.5">मोबाइल नंबर</label>
                 <input
                   type="text"
                   value={newPhone}
                   onChange={(e) => setNewPhone(e.target.value)}
                   placeholder="उदा. 9826022222"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:border-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 font-mono text-xs focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">आवंटित भूमिका (Role)</label>
+                <label className="block text-xs font-semibold text-slate-600 mb-1.5">आवंटित भूमिका (Role)</label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-xs font-semibold focus:border-amber-500 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 text-xs font-semibold focus:border-emerald-500 focus:outline-none"
                 >
                   <option value="tagging_agent">टैगिंग एजेंट (Tagging Agent)</option>
                   <option value="patrol_squad">पेट्रोलिंग स्क्वाड (Patrol Squad)</option>
@@ -728,7 +371,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
               <button
                 type="submit"
-                className="bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/10 transition-all"
+                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>अधिकार असाइन करें</span>
@@ -737,7 +380,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
           </div>
 
           {/* Search & Filters */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-950 border border-slate-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
@@ -745,7 +388,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
                 placeholder="नाम या नंबर से खोजें..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -754,7 +397,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-semibold focus:outline-none"
+                className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-semibold focus:outline-none"
               >
                 <option value="ALL">सभी रोल (All Roles)</option>
                 <option value="tagging_agent">टैगिंग एजेंट</option>
@@ -769,15 +412,15 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
           {/* Registered Users List */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredUsers.map((user) => (
-              <div key={user.phone} className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-3 hover:border-slate-700 transition-colors">
+              <div key={user.phone} className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-white text-sm">{user.name}</span>
-                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold">
+                  <span className="font-bold text-slate-800 text-sm">{user.name}</span>
+                  <span className="bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] px-2.5 py-0.5 rounded-full font-bold">
                     {user.role}
                   </span>
                 </div>
-                <div className="text-xs text-slate-400 font-mono">
-                  नंबर: <span className="text-cyan-400 font-bold">{user.phone}</span>
+                <div className="text-xs text-slate-500 font-mono">
+                  नंबर: <span className="text-slate-800 font-bold">{user.phone}</span>
                 </div>
 
                 <button
@@ -785,9 +428,9 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
                     setInspectedRole(user.role);
                     setInspectedPhone(user.phone);
                   }}
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-amber-500/30 transition-colors"
+                  className="w-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-slate-200 transition-colors"
                 >
-                  <Eye className="w-3.5 h-3.5 text-amber-400" />
+                  <Eye className="w-3.5 h-3.5 text-slate-500" />
                   <span>लाइव डैशबोर्ड निरीक्षण करें</span>
                 </button>
               </div>
@@ -798,31 +441,32 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
       {/* SECTION 3: TAG BANK */}
       {activeSection === 'tagging' && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40">
+        <div className="space-y-4 mt-8">
+          <button onClick={() => setActiveSection('analytics')} className="text-blue-600 text-sm font-bold mb-4 flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> डैशबोर्ड पर वापस जाएँ</button>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-3xl bg-white border border-slate-200 shadow-sm gap-4">
             <div>
-              <h3 className="text-base font-bold text-white">अनलिंक्ड QR Ear-Tag बैंक ({unlinkedTags.length} टैग उपलब्ध)</h3>
-              <p className="text-xs text-slate-400">क्षेत्रीय एजेंटों द्वारा पशु से लिंक करने हेतु उपलब्ध खाली टैग्स</p>
+              <h3 className="text-base font-bold text-slate-800">अनलिंक्ड QR Ear-Tag बैंक ({unlinkedTags.length} टैग उपलब्ध)</h3>
+              <p className="text-xs text-slate-500 mt-1">क्षेत्रीय एजेंटों द्वारा पशु से लिंक करने हेतु उपलब्ध खाली टैग्स</p>
             </div>
             <button
               onClick={() => {
                 setInspectedRole('tagging_agent');
                 setInspectedPhone('9826011111');
               }}
-              className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 whitespace-nowrap"
             >
               <Eye className="w-4 h-4" />
-              <span>टैगिंग एजेंट डैशबोर्ड खोलें</span>
+              <span>टैगिंग डैशबोर्ड खोलें</span>
             </button>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
             {unlinkedTags.map((tag) => (
-              <div key={tag.tagId} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center space-y-2">
-                <div className="bg-white p-2 rounded-xl inline-block">
+              <div key={tag.tagId} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2 shadow-sm">
+                <div className="bg-white p-2 rounded-xl inline-block border border-slate-200">
                   <QRCodeSVG value={`PASHUDHAN:${tag.tagId}`} size={70} />
                 </div>
-                <div className="font-mono text-xs font-bold text-emerald-400">{tag.tagId}</div>
+                <div className="font-mono text-xs font-bold text-emerald-600">{tag.tagId}</div>
               </div>
             ))}
           </div>
@@ -831,21 +475,22 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
       {/* SECTION 4: PATROL SQUAD SECTION */}
       {activeSection === 'patrol' && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-purple-950/40 border border-purple-500/40">
+        <div className="space-y-4 mt-8">
+          <button onClick={() => setActiveSection('analytics')} className="text-blue-600 text-sm font-bold mb-4 flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> डैशबोर्ड पर वापस जाएँ</button>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-3xl bg-white border border-slate-200 shadow-sm gap-4">
             <div>
-              <h3 className="text-base font-bold text-white">पेट्रोलिंग गश्त व निर्णय लॉजिक</h3>
-              <p className="text-xs text-slate-400">1-2m लांग-रेंज UHF RFID स्कैनर एवं ई-चालान सिस्टम</p>
+              <h3 className="text-base font-bold text-slate-800">पेट्रोलिंग गश्त व निर्णय लॉजिक</h3>
+              <p className="text-xs text-slate-500 mt-1">1-2m लांग-रेंज UHF RFID स्कैनर एवं ई-चालान सिस्टम</p>
             </div>
             <button
               onClick={() => {
                 setInspectedRole('patrol_squad');
                 setInspectedPhone('9826022222');
               }}
-              className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5"
+              className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 whitespace-nowrap"
             >
               <Eye className="w-4 h-4" />
-              <span>पेट्रोलिंग लाइव सिमुलेटर खोलें</span>
+              <span>पेट्रोलिंग सिमुलेटर खोलें</span>
             </button>
           </div>
         </div>
@@ -853,21 +498,22 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
       {/* SECTION 5: GAUSHALA MANAGMENT */}
       {activeSection === 'gaushala' && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40">
+        <div className="space-y-4 mt-8">
+          <button onClick={() => setActiveSection('analytics')} className="text-blue-600 text-sm font-bold mb-4 flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> डैशबोर्ड पर वापस जाएँ</button>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-3xl bg-white border border-slate-200 shadow-sm gap-4">
             <div>
-              <h3 className="text-base font-bold text-white">गोशाला इन्फ्रास्ट्रक्चर व आइसोलेशन कक्ष</h3>
-              <p className="text-xs text-slate-400">30-दिवसीय आइसोलेशन, चारा इन्वेंट्री व मेडिकल रिकॉर्ड</p>
+              <h3 className="text-base font-bold text-slate-800">गोशाला इन्फ्रास्ट्रक्चर व आइसोलेशन कक्ष</h3>
+              <p className="text-xs text-slate-500 mt-1">30-दिवसीय आइसोलेशन, चारा इन्वेंट्री व मेडिकल रिकॉर्ड</p>
             </div>
             <button
               onClick={() => {
                 setInspectedRole('gaushala_manager');
                 setInspectedPhone('9826033333');
               }}
-              className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5"
+              className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 whitespace-nowrap"
             >
               <Eye className="w-4 h-4" />
-              <span>गोशाला मैनेजर लाइव डैशबोर्ड खोलें</span>
+              <span>गोशाला डैशबोर्ड खोलें</span>
             </button>
           </div>
         </div>
@@ -875,10 +521,11 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
 
       {/* SECTION 6: SYSTEM BROADCAST & LOGS */}
       {activeSection === 'system' && (
-        <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-3xl border border-blue-500/30 space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <BellRing className="w-5 h-5 text-blue-400" />
+        <div className="space-y-6 mt-8">
+          <button onClick={() => setActiveSection('analytics')} className="text-blue-600 text-sm font-bold mb-4 flex items-center gap-1"><ArrowLeft className="w-4 h-4" /> डैशबोर्ड पर वापस जाएँ</button>
+          <div className="bg-white p-6 rounded-3xl border border-blue-100 space-y-4 shadow-sm">
+            <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
+              <BellRing className="w-5 h-5 text-blue-500" />
               <span>आपातकालीन मास्टर ब्रॉडकास्ट सिस्टम</span>
             </h3>
 
@@ -888,7 +535,7 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
                 value={broadcastMsg}
                 onChange={(e) => setBroadcastMsg(e.target.value)}
                 placeholder="सभी मोबाइल ऐप्स पर प्रसारित करने हेतु आपातकालीन संदेश लिखें..."
-                className="flex-1 bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none focus:border-blue-500"
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
               />
               <button
                 type="submit"
@@ -900,17 +547,17 @@ export const AdminPortal = ({ onOpenLinkTagModal, onSelectAnimal }) => {
             </form>
           </div>
 
-          <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <div className="bg-white p-6 rounded-3xl border border-slate-200 space-y-4 shadow-sm">
+            <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
               <Clock className="w-5 h-5 text-slate-400" />
               <span>सिस्टम लाइव एक्टिविटी लॉग</span>
             </h3>
 
             <div className="space-y-2">
               {broadcastLog.map(log => (
-                <div key={log.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
-                  <span className="text-slate-300 font-mono">{log.text}</span>
-                  <span className="text-slate-500 font-mono text-[10px]">{log.time}</span>
+                <div key={log.id} className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+                  <span className="text-slate-700 font-mono font-medium">{log.text}</span>
+                  <span className="text-slate-400 font-mono text-[10px] whitespace-nowrap">{log.time}</span>
                 </div>
               ))}
             </div>
