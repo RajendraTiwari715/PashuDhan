@@ -54,7 +54,16 @@ export function App() {
   };
 
   useEffect(() => {
+    const existingSession = getUserSession();
+    if (existingSession) {
+      existingSession.role = getRoleForPhone(existingSession.phone);
+      setSession(existingSession);
+    }
     refreshData();
+    
+    if (window.location.pathname.startsWith('/admin') || existingSession?.role === 'admin') {
+      setActiveTab('admin');
+    }
   }, []);
 
   const handleLoginSuccess = (newSession) => {
