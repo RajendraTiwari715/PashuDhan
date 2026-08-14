@@ -16,7 +16,7 @@ import { WhatsAppNoticeModal } from './components/WhatsAppNoticeModal';
 import { BluetoothRFIDModal } from './components/BluetoothRFIDModal';
 import { SirenAlertModal } from './components/SirenAlertModal';
 
-import { getAnimals, getComplaints, getUserSession, setUserSession, initStorage, getRoleForPhone } from './services/storage';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { getAnimals, getComplaints, getUserSession, setUserSession, initStorage, getRoleForPhone } from './services/storage';
 
 export function App() {
   const [session, setSession] = useState(null);
