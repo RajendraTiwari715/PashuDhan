@@ -36,17 +36,22 @@ const DEFAULT_ROLE_REGISTRY = [
 
 // Initialize LocalStorage with seed data if empty
 export const initStorage = () => {
-  if (!localStorage.getItem(STORAGE_KEYS.ANIMALS)) {
-    localStorage.setItem(STORAGE_KEYS.ANIMALS, JSON.stringify(INITIAL_ANIMALS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.BLANK_TAGS)) {
-    localStorage.setItem(STORAGE_KEYS.BLANK_TAGS, JSON.stringify(INITIAL_BLANK_TAGS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.COMPLAINTS)) {
-    localStorage.setItem(STORAGE_KEYS.COMPLAINTS, JSON.stringify(INITIAL_COMPLAINTS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.ROLE_REGISTRY)) {
-    localStorage.setItem(STORAGE_KEYS.ROLE_REGISTRY, JSON.stringify(DEFAULT_ROLE_REGISTRY));
+  try {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+    if (!localStorage.getItem(STORAGE_KEYS.ANIMALS)) {
+      localStorage.setItem(STORAGE_KEYS.ANIMALS, JSON.stringify(INITIAL_ANIMALS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.BLANK_TAGS)) {
+      localStorage.setItem(STORAGE_KEYS.BLANK_TAGS, JSON.stringify(INITIAL_BLANK_TAGS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.COMPLAINTS)) {
+      localStorage.setItem(STORAGE_KEYS.COMPLAINTS, JSON.stringify(INITIAL_COMPLAINTS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.ROLE_REGISTRY)) {
+      localStorage.setItem(STORAGE_KEYS.ROLE_REGISTRY, JSON.stringify(DEFAULT_ROLE_REGISTRY));
+    }
+  } catch (err) {
+    console.warn('LocalStorage error in WebView:', err);
   }
 };
 
@@ -242,34 +247,62 @@ export const getComplaints = () => {
   }
 };
 
-export const createComplaint = (data) =>
+export const getComplaintsForOwnerPhone = (phone) => {
+  if (!phone) return [];
+  const cleanPhone = phone.replace(/\D/g, '');
+  const animals = getAnimals();
+  const ownedAnimals = animals.filter(
+    (a) => a.owner && a.owner.phone && a.owner.phone.replace(/\D/g, '') === cleanPhone
+  );
+  const ownedTagIds = ownedAnimals.map((a) => (a.tagId || '').toUpperCase());
 
+  const allComplaints = getComplaints();
+  return allComplaints.filter((c) => {
+    const cTag = (c.animalTagId || '').toUpperCase();
+    const cOwnerPhone = (c.ownerPhone || '').replace(/\D/g, '');
+    const cReporter = (c.complainantPhone || '').replace(/\D/g, '');
+    return (
+      cOwnerPhone === cleanPhone ||
+      ownedTagIds.includes(cTag) ||
+      cReporter === cleanPhone
+    );
+  });
+};
 
-
-
-
-
-
-{
+export const createComplaint = (data) => {
   const complaints = getComplaints();
+  const animals = getAnimals();
   const timeNowStr = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+
+  // Lookup animal to bind owner phone and details
+  let targetAnimal = null;
+  if (data.animalTagId) {
+    const cleanTag = data.animalTagId.trim().toUpperCase();
+    targetAnimal = animals.find((a) => a.tagId && a.tagId.toUpperCase() === cleanTag);
+  }
 
   const pasuVibhag = REGIONAL_PASU_VIBHAG[0];
   const policeStation = REGIONAL_POLICE_STATIONS[0];
   const gaushala = REGIONAL_GAUSHALAS[0];
 
+  const assignedOwnerPhone = targetAnimal?.owner?.phone || data.ownerPhone || '';
+  const assignedOwnerName = targetAnimal?.owner?.name || data.ownerName || '';
+
   const newComplaint = {
     id: `CMP-${Math.floor(1000 + Math.random() * 9000)}`,
-    animalTagId: data.animalTagId,
-    animalCategory: data.animalCategory || 'Gay',
+    animalTagId: data.animalTagId || targetAnimal?.tagId || 'UNTAGGED-STRAY',
+    animalCategory: data.animalCategory || targetAnimal?.category || 'Gay',
+    animalBreed: targetAnimal?.breed || data.animalBreed || 'गोवंश (Cattle)',
+    ownerPhone: assignedOwnerPhone,
+    ownerName: assignedOwnerName,
     complainantPhone: data.complainantPhone,
     complainantName: data.complainantName || 'नागरिक (Citizen User)',
-    photoProofUrl: data.photoProofUrl,
+    photoProofUrl: data.photoProofUrl || targetAnimal?.photos?.[0] || 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
     description: data.description,
     location: {
-      lat: 23.2599,
-      lng: 77.4126,
-      addressName: data.cityName || 'मुख्य मार्ग, भोपाल',
+      lat: data.lat || 23.2599,
+      lng: data.lng || 77.4126,
+      addressName: data.cityName || data.addressName || 'मुख्य मार्ग, भोपाल',
       city: 'भोपाल (Bhopal)',
       state: 'मध्य प्रदेश',
       pincode: '462011'
@@ -277,21 +310,29 @@ export const createComplaint = (data) =>
     nearestPasuVibhag: pasuVibhag,
     nearestPoliceStation: policeStation,
     assignedGaushala: gaushala,
-    status: 'Dispatched to Pasu Vibhag',
-    statusHistory: [
-    {
-      status: 'Pending',
-      timestamp: timeNowStr,
-      note: 'शिकायत ऐप द्वारा सफलतापूर्वक दर्ज की गई।',
-      updatedBy: 'Citizen App'
+    assignedUnit: data.assignedUnit || {
+      callsign: 'रेस्क्यू एम्बुलेंस Alpha-1 (1962)',
+      plate: 'MP-04-GAU-9012',
+      driver: 'राजेश सिंह',
+      driverPhone: '98260 99881',
+      etaMinutes: 8,
+      distanceKm: 1.8
     },
-    {
-      status: 'Dispatched to Pasu Vibhag',
-      timestamp: timeNowStr,
-      note: `निकटतम पशु विभाग (${pasuVibhag.name}) एवं पुलिस नियंत्रण कक्ष को स्वतः अलर्ट भेजा गया।`,
-      updatedBy: 'PashuDhan GPS Dispatch Engine'
-    }],
-
+    status: data.status || 'Dispatched to Pasu Vibhag',
+    statusHistory: [
+      {
+        status: 'Pending',
+        timestamp: timeNowStr,
+        note: 'शिकायत ऐप द्वारा सफलतापूर्वक दर्ज की गई।',
+        updatedBy: data.complainantName || 'Citizen App'
+      },
+      {
+        status: data.status || 'Dispatched to Pasu Vibhag',
+        timestamp: timeNowStr,
+        note: `पशुपालक (${assignedOwnerName || 'पंजीकृत मालिक'}) एवं निकटतम पशु विभाग को स्वतः अलर्ट प्रेषित।`,
+        updatedBy: 'PashuDhan GPS Dispatch Engine'
+      }
+    ],
     createdAt: timeNowStr,
     updatedAt: timeNowStr
   };

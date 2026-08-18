@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { GaushalaModule } from './GaushalaModule';
-import { Building2, Heart, PlusCircle, CheckCircle2, Navigation, Truck, QrCode, Shield, FileText, Bell, Search, Activity, User, ChevronRight } from 'lucide-react';
+import { GaushalaLiveTrackingMap } from './GaushalaLiveTrackingMap';
+import { GaushalaLiveTrackingModal } from './GaushalaLiveTrackingModal';
+import {
+  Building2,
+  Heart,
+  PlusCircle,
+  CheckCircle2,
+  Navigation,
+  Truck,
+  QrCode,
+  Shield,
+  FileText,
+  Bell,
+  Search,
+  Activity,
+  User,
+  ChevronRight,
+  Radio,
+  Maximize2
+} from 'lucide-react';
 
 export const GaushalaManagerDashboard = ({ animals }) => {
   const [donorName, setDonorName] = useState('');
@@ -10,6 +29,9 @@ export const GaushalaManagerDashboard = ({ animals }) => {
     { name: 'श्रीमती संगीता शर्मा', amount: 2100, item: 'गो-सेवा गोद ग्रहण (सप्ताह)', date: '2026-08-11', badge: '🥈 रजत दानदाता' }
   ]);
   const [donationSuccess, setDonationSuccess] = useState(false);
+
+  const [isLiveTrackingModalOpen, setIsLiveTrackingModalOpen] = useState(false);
+  const [activeTrackingUnit, setActiveTrackingUnit] = useState('ALPHA-1');
 
   const [feedItem, setFeedItem] = useState('');
   const [feedQuantity, setFeedQuantity] = useState('');
@@ -77,10 +99,8 @@ export const GaushalaManagerDashboard = ({ animals }) => {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         {/* Left / Main Section (8 cols on XL) */}
         <div className="xl:col-span-8 space-y-6">
-          {/* Top Row: Capacity & Quick Action Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Gaushala Capacity Card */}
-            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col justify-between">
+          {/* Gaushala Capacity Card */}
+          <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col justify-between">
               <div>
                 <h2 className="text-sm font-bold text-slate-800 mb-1">गौशाला क्षमता एवं शेड सूचकांक</h2>
                 <p className="text-xs text-slate-500 mb-4">कुल गौवंश आवास स्थिति</p>
@@ -116,48 +136,6 @@ export const GaushalaManagerDashboard = ({ animals }) => {
                 </div>
               </div>
             </div>
-
-            {/* Quick Action Grid */}
-            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col justify-between">
-              <div>
-                <h2 className="text-sm font-bold text-slate-800 mb-1">गौशाला त्वरित कार्य (Quick Actions)</h2>
-                <p className="text-xs text-slate-500 mb-4">जरूरी इनटेक एवं कस्टडी नियंत्रण</p>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <button className="bg-teal-50 border border-teal-200 hover:bg-teal-100/60 rounded-2xl p-3.5 flex flex-col items-center justify-center gap-1.5 text-center transition-all group">
-                    <Navigation className="w-5 h-5 text-teal-600 group-hover:scale-110 transition-transform" />
-                    <div className="text-xs font-bold text-slate-800">1. रेस्क्यू नेविगेशन</div>
-                    <div className="text-[10px] text-teal-700">GPS Pin Route</div>
-                  </button>
-
-                  <button className="bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-2xl p-3.5 flex flex-col items-center justify-center gap-1.5 text-center transition-all group">
-                    <Truck className="w-5 h-5 text-amber-600 group-hover:scale-110 transition-transform" />
-                    <div className="text-xs font-bold text-slate-800">2. वाहन ट्रैकिंग</div>
-                    <div className="text-[10px] text-slate-500">Vehicle Status</div>
-                  </button>
-
-                  <button className="bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-2xl p-3.5 flex flex-col items-center justify-center gap-1.5 text-center transition-all group">
-                    <QrCode className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform" />
-                    <div className="text-xs font-bold text-slate-800">3. इनटेक QR स्कैन</div>
-                    <div className="text-[10px] text-slate-500">Gate Tag Scan</div>
-                  </button>
-
-                  <button className="bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-2xl p-3.5 flex flex-col items-center justify-center gap-1.5 text-center transition-all group">
-                    <Shield className="w-5 h-5 text-purple-600 group-hover:scale-110 transition-transform" />
-                    <div className="text-xs font-bold text-slate-800">4. कस्टडी ट्रांसफर</div>
-                    <div className="text-[10px] text-slate-500">Gaushala Custody</div>
-                  </button>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 mt-3">
-                <button className="w-full bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 font-bold p-2.5 rounded-2xl text-xs flex items-center justify-center gap-2 transition-colors">
-                  <Heart className="w-4 h-4 text-rose-600" />
-                  <span>30-दिवसीय आइसोलेशन एवं आहार लॉग खोलें</span>
-                </button>
-              </div>
-            </div>
-          </div>
 
           {/* Donations Form & List */}
           <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm space-y-4">
@@ -237,14 +215,16 @@ export const GaushalaManagerDashboard = ({ animals }) => {
                 <div className="flex gap-2.5">
                   <Navigation className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                   <div className="w-full">
-                    <div className="text-xs font-bold text-blue-800">
-                      लाइव रेस्क्यू इनबाउंड - रेस्क्यू नेविगेशन GPS Pin Route (लाइव)
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs font-bold text-blue-800">
+                        लाइव रेस्क्यू इनबाउंड - रेस्क्यू नेविगेशन GPS Pin Route (लाइव)
+                      </div>
                     </div>
                     <div className="text-[11px] text-slate-500 mt-1">
-                      लोकेशन: राष्ट्रीय राजमार्ग 44, सीहोर तिराहा | दूरी: 1.4 KM | ईटीए: 15 मिनट
+                      लोकेशन: राष्ट्रीय राजमार्ग 44, सीहोर तिराहा | दूरी: 1.4 KM | ईटीए: 6 मिनट (वाहन: MP-04-GAU-9012)
                     </div>
                     <div className="w-full h-1.5 bg-blue-100 mt-2 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500 w-[80%] rounded-full"></div>
+                      <div className="h-full bg-blue-500 w-[78%] rounded-full animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -370,6 +350,13 @@ export const GaushalaManagerDashboard = ({ animals }) => {
           <GaushalaModule animals={animals} />
         </div>
       </div>
+
+      {/* Live Tracking Modal */}
+      <GaushalaLiveTrackingModal
+        isOpen={isLiveTrackingModalOpen}
+        onClose={() => setIsLiveTrackingModalOpen(false)}
+        initialUnitId={activeTrackingUnit}
+      />
     </div>
   );
 };

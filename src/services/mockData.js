@@ -342,40 +342,139 @@ export const REGIONAL_GAUSHALAS = [
 
 
 export const INITIAL_COMPLAINTS = [
-{
-  id: 'CMP-9041',
-  animalTagId: 'TAG-1004',
-  animalCategory: 'Bail',
-  complainantPhone: '98765 43210',
-  complainantName: 'अमित मेहरा (Amit Mehra)',
-  photoProofUrl: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
-  description: 'सड़क के बीच में अकेला बैल घूम रहा है जिससे यातायात बाधित हो रहा है।',
-  location: {
-    lat: 23.2599,
-    lng: 77.4126,
-    addressName: 'होशंगाबाद रोड, बोर्ड ऑफिस चौराहा',
-    city: 'भोपाल',
-    state: 'मध्य प्रदेश',
-    pincode: '462011'
-  },
-  nearestPasuVibhag: REGIONAL_PASU_VIBHAG[0],
-  nearestPoliceStation: REGIONAL_POLICE_STATIONS[0],
-  assignedGaushala: REGIONAL_GAUSHALAS[0],
-  status: 'Dispatched to Pasu Vibhag',
-  statusHistory: [
   {
-    status: 'Pending',
-    timestamp: '2026-08-11 09:15 AM',
-    note: 'नागरिक द्वारा शिकायत दर्ज की गई।',
-    updatedBy: 'Citizen App'
-  },
-  {
+    id: 'CMP-9041',
+    animalTagId: 'TAG-1004',
+    animalCategory: 'Bail',
+    complainantPhone: '98765 43210',
+    complainantName: 'अमित मेहरा (Amit Mehra)',
+    photoProofUrl: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
+    description: 'सड़क के बीच में अकेला बैल घूम रहा है जिससे यातायात बाधित हो रहा है।',
+    location: {
+      lat: 23.2599,
+      lng: 77.4126,
+      addressName: 'होशंगाबाद रोड, बोर्ड ऑफिस चौराहा',
+      city: 'भोपाल',
+      state: 'मध्य प्रदेश',
+      pincode: '462011'
+    },
+    nearestPasuVibhag: REGIONAL_PASU_VIBHAG[0],
+    nearestPoliceStation: REGIONAL_POLICE_STATIONS[0],
+    assignedGaushala: REGIONAL_GAUSHALAS[0],
     status: 'Dispatched to Pasu Vibhag',
-    timestamp: '2026-08-11 09:20 AM',
-    note: 'निकटतम पशु विभाग (भोपाल) को अलर्ट एवं जीपीएस पिन प्रेषित किया गया।',
-    updatedBy: 'PashuDhan Auto System'
-  }],
-
-  createdAt: '2026-08-11 09:15 AM',
-  updatedAt: '2026-08-11 09:20 AM'
-}];
+    assignedUnit: {
+      callsign: 'रेस्क्यू एम्बुलेंस Alpha-1',
+      plate: 'MP-04-GAU-9012',
+      driver: 'राजेश सिंह',
+      driverPhone: '98260 99881',
+      etaMinutes: 6,
+      distanceKm: 1.4
+    },
+    statusHistory: [
+      {
+        status: 'Pending',
+        timestamp: '2026-08-11 09:15 AM',
+        note: 'नागरिक द्वारा शिकायत दर्ज की गई।',
+        updatedBy: 'Citizen App'
+      },
+      {
+        status: 'Dispatched to Pasu Vibhag',
+        timestamp: '2026-08-11 09:20 AM',
+        note: 'निकटतम पशु विभाग (भोपाल) को अलर्ट एवं जीपीएस पिन प्रेषित किया गया।',
+        updatedBy: 'PashuDhan Auto System'
+      }
+    ],
+    createdAt: '2026-08-11 09:15 AM',
+    updatedAt: '2026-08-11 09:20 AM'
+  },
+  {
+    id: 'CMP-9042',
+    animalTagId: 'TAG-1001',
+    animalCategory: 'Gay',
+    complainantPhone: '98260 55443',
+    complainantName: 'सुरेश पाटीदार (नागरिक रिपोर्टर)',
+    photoProofUrl: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
+    description: 'फंदा रोड चौराहे के पास गाय खुले में बैठी है। कृपया जांच करें।',
+    location: {
+      lat: 23.2599,
+      lng: 77.4126,
+      addressName: 'फंदा रोड चौराहा, सीहोर मार्ग',
+      city: 'भोपाल',
+      state: 'मध्य प्रदेश',
+      pincode: '462030'
+    },
+    nearestPasuVibhag: REGIONAL_PASU_VIBHAG[0],
+    nearestPoliceStation: REGIONAL_POLICE_STATIONS[0],
+    assignedGaushala: REGIONAL_GAUSHALAS[0],
+    status: 'Dispatched to Pasu Vibhag',
+    assignedUnit: {
+      callsign: 'रेस्क्यू स्क्वाड Bravo-2',
+      plate: 'MP-04-GAU-8841',
+      driver: 'कमलेश यादव',
+      driverPhone: '98261 44321',
+      etaMinutes: 12,
+      distanceKm: 3.2
+    },
+    statusHistory: [
+      {
+        status: 'Pending',
+        timestamp: '2026-08-18 10:00 AM',
+        note: 'शिकायत दर्ज हुई एवं फोटो सत्यापन सफल।',
+        updatedBy: 'Citizen App'
+      },
+      {
+        status: 'Dispatched to Pasu Vibhag',
+        timestamp: '2026-08-18 10:05 AM',
+        note: 'पशु कल्याण टीम को आपातकालीन डिस्पैच अलर्ट जारी।',
+        updatedBy: 'PashuDhan CAD Engine'
+      }
+    ],
+    createdAt: '2026-08-18 10:00 AM',
+    updatedAt: '2026-08-18 10:05 AM'
+  },
+  {
+    id: 'CMP-9043',
+    animalTagId: 'TAG-1002',
+    animalCategory: 'Gay',
+    complainantPhone: '94250 88123',
+    complainantName: 'शिवम सिंह (मालिक द्वारा गुमशुदगी रिपोर्ट)',
+    photoProofUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80',
+    description: 'मेरी गिर गाय बाड़े से 1.4 किमी दूर फेंस तोड़कर निकल गई है, कृपया ढूंढने में सहायता करें।',
+    location: {
+      lat: 22.7533,
+      lng: 77.7289,
+      addressName: 'हाईवे NH-69, नर्मदा रोड',
+      city: 'होशंगाबाद',
+      state: 'मध्य प्रदेश',
+      pincode: '461001'
+    },
+    nearestPasuVibhag: REGIONAL_PASU_VIBHAG[1] || REGIONAL_PASU_VIBHAG[0],
+    nearestPoliceStation: REGIONAL_POLICE_STATIONS[1] || REGIONAL_POLICE_STATIONS[0],
+    assignedGaushala: REGIONAL_GAUSHALAS[0],
+    status: 'In Progress (Patrol Search)',
+    assignedUnit: {
+      callsign: 'हाईवे पेट्रोल यूनिट 4',
+      plate: 'MP-05-PAT-1102',
+      driver: 'महेश कुमार',
+      driverPhone: '94250 33221',
+      etaMinutes: 8,
+      distanceKm: 2.1
+    },
+    statusHistory: [
+      {
+        status: 'Pending',
+        timestamp: '2026-08-10 04:30 PM',
+        note: 'पशुपालक द्वारा गुमशुदगी दर्ज की गई।',
+        updatedBy: 'Pashu Malik App'
+      },
+      {
+        status: 'In Progress (Patrol Search)',
+        timestamp: '2026-08-10 04:45 PM',
+        note: 'हाईवे पेट्रोल यूनिट को जीपीएस सर्च निर्देशांक आवंटित।',
+        updatedBy: 'CAD Auto-Router'
+      }
+    ],
+    createdAt: '2026-08-10 04:30 PM',
+    updatedAt: '2026-08-10 04:45 PM'
+  }
+];

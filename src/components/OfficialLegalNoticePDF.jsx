@@ -1,22 +1,8 @@
 import React from 'react';
-
 import { QRCodeSVG } from 'qrcode.react';
-import { ShieldAlert, Printer, X, MapPin } from 'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { ShieldAlert, Printer, X, MapPin } from 'lucide-react';
 
-
-
-
-
-
-
-
-
-export const OfficialLegalNoticePDF = ({
-  isOpen,
-  onClose,
-  animal,
-  notice
-}) => {
+export const OfficialLegalNoticePDF = ({ isOpen, onClose, animal, notice }) => {
   if (!isOpen) return null;
 
   const noticeId = notice ? notice.id : 'NTC-8891';
@@ -26,152 +12,99 @@ export const OfficialLegalNoticePDF = ({
     window.print();
   };
 
-  return (/*#__PURE__*/
-    _jsxDEV("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn", children: /*#__PURE__*/
-      _jsxDEV("div", { className: "glass-modal w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-amber-500/40 text-slate-900 bg-white", children: [/*#__PURE__*/
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-200 text-slate-800">
+        <div className="flex justify-between items-center mb-6 print:hidden border-b pb-4 border-slate-100">
+          <div className="flex items-center gap-2">
+            <span className="bg-amber-50 text-amber-800 text-xs px-3 py-1 rounded-full font-bold border border-amber-200">
+              शासकीय विधिक नोटिस पूर्वावलोकन (Official Legal E-Notice)
+            </span>
+          </div>
 
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrintDocument}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+            >
+              <Printer className="w-4 h-4" />
+              <span>प्रिंट / PDF सेव करें</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
 
-        _jsxDEV("div", { className: "flex justify-between items-center mb-6 print:hidden border-b pb-4 border-slate-200", children: [/*#__PURE__*/
-          _jsxDEV("div", { className: "flex items-center gap-2", children: /*#__PURE__*/
-            _jsxDEV("span", { className: "bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold border border-amber-300", children: "शासकीय विधिक नोटिस पूर्वावलोकन (Official Legal E-Notice)" }, void 0, false
+        {/* Printable Notice Paper Content */}
+        <div className="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200 space-y-6 text-slate-800 font-sans">
+          {/* Header Seal */}
+          <div className="text-center border-b-2 border-slate-300 pb-4 space-y-1">
+            <div className="w-12 h-12 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center mx-auto mb-2 font-black text-xl border border-amber-300">
+              🏛️
+            </div>
+            <h2 className="text-lg font-black tracking-wide text-slate-900">
+              कार्यालय मुख्य पशु चिकित्सा अधिकारी / नगर निगम प्रशासन
+            </h2>
+            <p className="text-xs font-bold text-slate-600">
+              मध्य प्रदेश पशु नियंत्रण एवं आवारा पशु रोकथाम अधिनियम 2026
+            </p>
+            <div className="flex justify-between items-center text-[10px] font-mono text-slate-500 pt-2 font-bold">
+              <span>क्रमांक: MP-GOV/{noticeId}/2026</span>
+              <span>दिनांक: {new Date().toLocaleDateString('hi-IN')}</span>
+            </div>
+          </div>
 
-            ) }, void 0, false
-          ), /*#__PURE__*/
+          {/* Recipient Information */}
+          <div className="grid grid-cols-2 gap-4 text-xs bg-white p-4 rounded-xl border border-slate-200">
+            <div>
+              <span className="text-slate-400 font-bold block text-[10px]">नोटिस प्रेषित (To Owner):</span>
+              <div className="font-bold text-slate-900 text-sm mt-0.5">{animal.ownerName}</div>
+              <div className="text-slate-600 font-mono">मो०: {animal.ownerPhone}</div>
+              <div className="text-slate-500 font-medium">आधार: {animal.ownerAadhaar || 'XXXX-XXXX-9482'}</div>
+            </div>
+            <div className="text-right">
+              <span className="text-slate-400 font-bold block text-[10px]">पशुधन विवरण:</span>
+              <div className="font-mono font-bold text-emerald-700 text-sm mt-0.5">{animal.tagId}</div>
+              <div className="text-slate-700 font-medium">{animal.name} ({animal.breed})</div>
+              <div className="text-slate-500 text-[11px]">श्रेणी: {animal.category}</div>
+            </div>
+          </div>
 
-          _jsxDEV("div", { className: "flex items-center gap-2", children: [/*#__PURE__*/
-            _jsxDEV("button", {
-              onClick: handlePrintDocument,
-              className: "bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md", children: [/*#__PURE__*/
+          {/* Legal Notice Body */}
+          <div className="space-y-3 text-xs leading-relaxed">
+            <p className="font-bold text-slate-900">
+              विषय: पंजीकृत गोवंश के निर्धारित जिओ-फेंस परिधि का उल्लंघन कर सार्वजनिक मार्ग पर आवारा विचरण करने बाबत।
+            </p>
+            <p className="text-slate-700">
+              महोदय/महोदया, आपके पंजीकृत गोवंश (टैग आईडी: <span className="font-mono font-bold">{animal.tagId}</span>) को जीपीएस ट्रैकिंग सेंसर एवं पेट्रोलिंग स्क्वाड द्वारा सार्वजनिक मार्ग/हाईवे पर अनियंत्रित व आवारा विचरण करते पाया गया है।
+            </p>
+            <div className="p-3 bg-amber-100/70 rounded-xl border border-amber-300 font-bold text-amber-900 text-[11px]">
+              ⚠️ निर्देश: यह आपका उल्लंघन स्तर-{offenseLevel} है। सूचना प्राप्ति के 48 घंटे के भीतर अपने पशु को सुरक्षित बाड़े में ले जाएं अन्यथा विधिक कार्रवाई व ₹500 का अर्थदंड अधिरोपित किया जाएगा।
+            </div>
+          </div>
 
-              _jsxDEV(Printer, { className: "w-4 h-4" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { children: "नोटिस PDF प्रिंट / सेव करें" }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
+          {/* Footer QR & Authority Signature */}
+          <div className="flex items-end justify-between border-t-2 border-slate-300 pt-4 text-xs">
+            <div className="flex items-center gap-3">
+              <QRCodeSVG value={`https://pashudhan.gov.in/notice/${noticeId}`} size={60} />
+              <div className="text-[10px] text-slate-500 font-mono">
+                <span>सत्यापन हेतु स्कैन करें</span>
+                <span className="block font-bold text-slate-800">पोर्टल: pashudhan.gov.in</span>
+              </div>
+            </div>
 
-            _jsxDEV("button", {
-              onClick: onClose,
-              className: "p-2 rounded-full text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors", children: /*#__PURE__*/
-
-              _jsxDEV(X, { className: "w-5 h-5" }, void 0, false) }, void 0, false
-            )] }, void 0, true
-          )] }, void 0, true
-        ), /*#__PURE__*/
-
-
-        _jsxDEV("div", { className: "relative p-6 sm:p-10 border-4 border-double border-slate-900 rounded-2xl bg-white text-slate-900 space-y-6 shadow-inner overflow-hidden", children: [/*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 rotate-[-30deg]", children: /*#__PURE__*/
-            _jsxDEV("div", { className: "text-center font-black text-6xl text-slate-900 uppercase", children: ["मध्य प्रदेश शासन", /*#__PURE__*/
-              _jsxDEV("br", {}, void 0, false), "पशु चिकित्सा सेवा", /*#__PURE__*/_jsxDEV("br", {}, void 0, false), "राजपत्रित विधिक ई-नोटिस"] }, void 0, true
-            ) }, void 0, false
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "text-center space-y-1 border-b-2 border-slate-900 pb-4", children: [/*#__PURE__*/
-            _jsxDEV("div", { className: "font-bold text-xs uppercase tracking-widest text-slate-700", children: "मध्य प्रदेश शासन - पशुपालन एवं डेयरी विभाग | पुलिस नियंत्रण कक्ष" }, void 0, false
-
-            ), /*#__PURE__*/
-            _jsxDEV("h2", { className: "text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-wide", children: "राष्ट्रीय डिजिटल गोवंश ई-नोटिस व चेतावनी पत्र" }, void 0, false
-
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "text-xs font-mono font-bold text-red-700", children: "(म.प्र. गोवंश वध प्रतिषेध अधिनियम एवं पशु क्रूरता निवारण धारा 1962 के अंतर्गत प्रेषित)" }, void 0, false
-
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-300 font-mono text-xs", children: [/*#__PURE__*/
-            _jsxDEV("div", { children: [/*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/_jsxDEV("span", { className: "font-bold text-slate-700", children: "विधिक नोटिस संख्या:" }, void 0, false), " ", /*#__PURE__*/_jsxDEV("span", { className: "font-bold text-slate-950", children: noticeId }, void 0, false)] }, void 0, true), /*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/_jsxDEV("span", { className: "font-bold text-slate-700", children: "जारी तिथि:" }, void 0, false), " ", new Date().toLocaleDateString('en-IN', { dateStyle: 'long' })] }, void 0, true)] }, void 0, true
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "border-2 border-red-700 text-red-700 font-black text-xs px-3 py-1.5 rounded-lg transform -rotate-2 uppercase tracking-wider text-center", children: ["🚨 OFFENSE LEVEL ",
-              offenseLevel, " NOTICE", /*#__PURE__*/_jsxDEV("br", {}, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-[10px]", children: "48 HOURS RESOLUTION TIMER" }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "space-y-2 text-xs", children: [/*#__PURE__*/
-            _jsxDEV("h4", { className: "font-bold text-slate-900 uppercase border-b border-slate-400 pb-1", children: "1. पशुपालक एवं पंजीकृत गोवंश विवरण" }, void 0, false), /*#__PURE__*/
-
-            _jsxDEV("div", { className: "grid grid-cols-2 gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200", children: [/*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-slate-600 block text-[11px]", children: "पशुपालक का नाम:" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "font-bold text-slate-950", children: animal.owner.name }, void 0, false)] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-slate-600 block text-[11px]", children: "पंजीकृत मोबाइल नंबर:" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "font-mono font-bold text-slate-950", children: ["+91 ", animal.owner.phone] }, void 0, true)] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-slate-600 block text-[11px]", children: "15-Digit ISO QR Tag ID:" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "font-mono font-bold text-emerald-800 text-sm", children: animal.tagId }, void 0, false)] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-slate-600 block text-[11px]", children: "पशु श्रेणी व नस्ल:" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "font-bold text-slate-950", children: [animal.category, " - ", animal.breed] }, void 0, true)] }, void 0, true
-              )] }, void 0, true
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "space-y-2 text-xs", children: [/*#__PURE__*/
-            _jsxDEV("h4", { className: "font-bold text-slate-900 uppercase border-b border-slate-400 pb-1", children: "2. 500m जिओ-फेंस उल्लंघन साक्ष्य एवं जीपीएस लोकेशन" }, void 0, false), /*#__PURE__*/
-
-            _jsxDEV("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200", children: [/*#__PURE__*/
-                _jsxDEV("div", { className: "font-semibold text-slate-800 flex items-center gap-1", children: [/*#__PURE__*/
-                  _jsxDEV(MapPin, { className: "w-3.5 h-3.5 text-red-600" }, void 0, false), "जीपीएस लोकेशन साक्ष्य:"] }, void 0, true
-
-                ), /*#__PURE__*/
-                _jsxDEV("div", { className: "text-[11px] text-slate-700 leading-relaxed", children: [
-                  animal.location.addressName, ", ", animal.location.city, " (", animal.location.pincode, ")"] }, void 0, true
-                ), /*#__PURE__*/
-                _jsxDEV("div", { className: "font-mono text-[10px] text-slate-500", children: ["अक्षांश: ",
-                  animal.location.lat, ", देशांतर: ", animal.location.lng] }, void 0, true
-                )] }, void 0, true
-              ), /*#__PURE__*/
-
-              _jsxDEV("div", { className: "flex justify-center items-center bg-white p-2 border border-slate-300 rounded-xl", children: /*#__PURE__*/
-                _jsxDEV(QRCodeSVG, { value: `PASHUDHAN_NOTICE:${noticeId}`, size: 80 }, void 0, false) }, void 0, false
-              )] }, void 0, true
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "p-3 bg-amber-50 border border-amber-300 rounded-xl text-amber-900 text-xs space-y-1", children: [/*#__PURE__*/
-            _jsxDEV("div", { className: "font-bold flex items-center gap-1", children: [/*#__PURE__*/
-              _jsxDEV(ShieldAlert, { className: "w-4 h-4 text-amber-700" }, void 0, false), "वैधानिक चेतावनी निर्देश:"] }, void 0, true
-
-            ), /*#__PURE__*/
-            _jsxDEV("p", { className: "text-[11px] leading-relaxed", children: "आपको सूचित किया जाता है कि आगामी 48 घंटे के भीतर उक्त गोवंश को 500 मीटर फेंस के भीतर (अपने डेयरी फार्म/घर) लाएं। नियत समय में समाधान न होने पर पशुपालक की प्रोफ़ाइल ब्लॉक कर जब्ती आदेश प्रेषित किया जाएगा।" }, void 0, false
-
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "flex justify-between items-end pt-6 border-t-2 border-slate-900 text-xs", children: [/*#__PURE__*/
-            _jsxDEV("div", { className: "text-center space-y-1", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "w-20 h-20 rounded-full border-2 border-emerald-800 flex items-center justify-center font-bold text-[9px] text-emerald-800 uppercase mx-auto p-1 text-center", children: ["शासकीय मुहर", /*#__PURE__*/
-                _jsxDEV("br", {}, void 0, false), "पशुपालन विभाग"] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "font-bold text-slate-800", children: "पशु कल्याण अधिकारी" }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-
-            _jsxDEV("div", { className: "text-center space-y-1", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "w-20 h-20 rounded-full border-2 border-red-800 flex items-center justify-center font-bold text-[9px] text-red-800 uppercase mx-auto p-1 text-center", children: ["पुलिस मुहर", /*#__PURE__*/
-                _jsxDEV("br", {}, void 0, false), "कंट्रोल रूम"] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "font-bold text-slate-800", children: "प्रभारी निरीक्षक, गौरक्षक दल" }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          )] }, void 0, true
-
-        )] }, void 0, true
-
-      ) }, void 0, false
-    ));
-
+            <div className="text-right space-y-1">
+              <div className="font-serif italic font-bold text-slate-800 text-sm">डिजिटल हस्ताक्षरित</div>
+              <div className="font-bold text-slate-900 text-[11px]">सक्षम प्राधिकारी, पशु नियंत्रण कक्ष</div>
+              <div className="text-[9px] text-slate-500">कंट्रोल रूम (टोल-फ्री): 1962</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };

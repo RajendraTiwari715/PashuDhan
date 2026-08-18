@@ -1,18 +1,7 @@
 import React, { useState } from 'react';
-import { Bluetooth, CheckCircle2, AlertCircle, RefreshCw, X, Radio } from 'lucide-react';import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";
+import { Bluetooth, CheckCircle2, AlertCircle, RefreshCw, X, Radio } from 'lucide-react';
 
-
-
-
-
-
-
-
-export const BluetoothRFIDModal = ({
-  isOpen,
-  onClose,
-  onTagDetected
-}) => {
+export const BluetoothRFIDModal = ({ isOpen, onClose, onTagDetected }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isScanningBT, setIsScanningBT] = useState(false);
   const [lastScannedTag, setLastScannedTag] = useState(null);
@@ -24,111 +13,102 @@ export const BluetoothRFIDModal = ({
     setTimeout(() => {
       setIsScanningBT(false);
       setIsConnected(true);
-    }, 2000);
+    }, 1500);
   };
 
-  const handleSimulateTagProximity = () => {
-    const demoTags = ['TAG-1001', 'TAG-1002', 'TAG-8821', 'TAG-9402'];
-    const randomTag = demoTags[Math.floor(Math.random() * demoTags.length)];
-    setLastScannedTag(randomTag);
-    if (onTagDetected) onTagDetected(randomTag);
-    alert(`📡 ब्लूटूथ RFID रीडर ने 15-अंकीय ISO टैग "${randomTag}" डिटेक्ट किया!`);
+  const handleSimulateTagDetection = (tagId) => {
+    setLastScannedTag(tagId);
+    if (onTagDetected) {
+      onTagDetected(tagId);
+    }
   };
 
-  return (/*#__PURE__*/
-    _jsxDEV("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn", children: /*#__PURE__*/
-      _jsxDEV("div", { className: "glass-modal w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-cyan-500/40", children: [/*#__PURE__*/
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-200 space-y-5">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm">
+            <Bluetooth className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] px-2.5 py-0.5 rounded-full font-bold">
+              134.2 kHz FDX-B / HDX
+            </span>
+            <h3 className="text-xl font-black text-slate-800 mt-0.5">
+              ब्लूटूथ RFID / NFC रीडर
+            </h3>
+          </div>
+        </div>
 
-        _jsxDEV("button", {
-          onClick: onClose,
-          className: "absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors", children: /*#__PURE__*/
+        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-3">
+          <div className="flex justify-between items-center">
+            <span className="text-slate-500 font-medium">रीडर कनेक्टिविटी:</span>
+            {isConnected ? (
+              <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                कनेक्टेड (PashuDhan Stick-88)
+              </span>
+            ) : (
+              <span className="text-slate-400 font-bold flex items-center gap-1">
+                <AlertCircle className="w-4 h-4 text-slate-400" />
+                डिस्कनेक्टेड
+              </span>
+            )}
+          </div>
 
-          _jsxDEV(X, { className: "w-5 h-5" }, void 0, false) }, void 0, false
-        ), /*#__PURE__*/
+          {!isConnected ? (
+            <button
+              onClick={handlePairBluetooth}
+              disabled={isScanningBT}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-colors"
+            >
+              {isScanningBT ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  <span>ब्लूटूथ रीडर खोजा जा रहा है...</span>
+                </>
+              ) : (
+                <>
+                  <Bluetooth className="w-4 h-4" />
+                  <span>हैंडहेल्ड रीडर से पेयर करें</span>
+                </>
+              )}
+            </button>
+          ) : (
+            <div className="space-y-2 pt-2 border-t border-slate-200">
+              <span className="text-[10px] text-slate-400 font-bold block">
+                परीक्षण हेतु निकटवर्ती RFID चिप स्कैन करें:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {['TAG-8821', 'TAG-9932', 'TAG-1102'].map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => handleSimulateTagDetection(tag)}
+                    className="bg-blue-50 hover:bg-blue-100 text-blue-700 font-mono font-bold text-xs px-3 py-1.5 rounded-lg border border-blue-200 transition-colors flex items-center gap-1"
+                  >
+                    <Radio className="w-3.5 h-3.5" />
+                    <span>{tag}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
-
-        _jsxDEV("div", { className: "flex items-center gap-3 mb-6", children: [/*#__PURE__*/
-          _jsxDEV("div", { className: "w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-cyan-500/20", children: /*#__PURE__*/
-            _jsxDEV(Bluetooth, { className: "w-6 h-6 text-white" }, void 0, false) }, void 0, false
-          ), /*#__PURE__*/
-          _jsxDEV("div", { children: [/*#__PURE__*/
-            _jsxDEV("span", { className: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold", children: "Web Bluetooth BLE API" }, void 0, false
-
-            ), /*#__PURE__*/
-            _jsxDEV("h3", { className: "text-xl font-bold text-white mt-0.5", children: "📡 ब्लूटूथ RFID रीडर पेयरिंग" }, void 0, false
-
-            )] }, void 0, true
-          )] }, void 0, true
-        ), /*#__PURE__*/
-
-
-        _jsxDEV("div", { className: "p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3", children: [/*#__PURE__*/
-          _jsxDEV("div", { className: "flex justify-between items-center text-xs", children: [/*#__PURE__*/
-            _jsxDEV("span", { className: "text-slate-400 font-semibold", children: "स्टॉक RFID रीडर:" }, void 0, false),
-            isConnected ? /*#__PURE__*/
-            _jsxDEV("span", { className: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1", children: [/*#__PURE__*/
-              _jsxDEV(CheckCircle2, { className: "w-3 h-3 text-emerald-400" }, void 0, false), " कनेक्टेड (BT-900)"] }, void 0, true
-            ) : /*#__PURE__*/
-
-            _jsxDEV("span", { className: "bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1", children: [/*#__PURE__*/
-              _jsxDEV(AlertCircle, { className: "w-3 h-3 text-amber-400" }, void 0, false), " डिस्कनेक्टेड"] }, void 0, true
-            )] }, void 0, true
-
-          ),
-
-          isConnected && /*#__PURE__*/
-          _jsxDEV("div", { className: "p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono space-y-1", children: [/*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between text-slate-300", children: [/*#__PURE__*/
-              _jsxDEV("span", { children: "डिवाइस:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-cyan-400 font-bold", children: "PashuDhan RFID Stick Reader BT-900" }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between text-slate-300", children: [/*#__PURE__*/
-              _jsxDEV("span", { children: "सिग्नल RSSI:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-emerald-400 font-bold", children: "-54 dBm (उत्कृष्ट)" }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          )] }, void 0, true
-
-        ),
-
-
-        !isConnected ? /*#__PURE__*/
-        _jsxDEV("button", {
-          onClick: handlePairBluetooth,
-          disabled: isScanningBT,
-          className: "mt-6 w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-slate-950 font-bold py-3.5 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all", children:
-
-          isScanningBT ? /*#__PURE__*/
-          _jsxDEV(_Fragment, { children: [/*#__PURE__*/
-            _jsxDEV(RefreshCw, { className: "w-4 h-4 animate-spin text-slate-950" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "ब्लूटूथ डिवाइस खोज रहे हैं..." }, void 0, false)] }, void 0, true
-          ) : /*#__PURE__*/
-
-          _jsxDEV(_Fragment, { children: [/*#__PURE__*/
-            _jsxDEV(Bluetooth, { className: "w-5 h-5" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "ब्लूटूथ RFID रीडर से पेयर करें" }, void 0, false)] }, void 0, true
-          ) }, void 0, false
-
-        ) : /*#__PURE__*/
-
-        _jsxDEV("div", { className: "space-y-3 mt-6", children: [/*#__PURE__*/
-          _jsxDEV("button", {
-            onClick: handleSimulateTagProximity,
-            className: "w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3.5 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition-all", children: [/*#__PURE__*/
-
-            _jsxDEV(Radio, { className: "w-5 h-5 animate-pulse" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "15-अंकीय ISO Tag ऑटो-स्कैन बीप सिमुलेट करें" }, void 0, false)] }, void 0, true
-          ),
-
-          lastScannedTag && /*#__PURE__*/
-          _jsxDEV("div", { className: "p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs text-center font-mono font-bold animate-fadeIn", children: ["अंतिम स्कैन किया गया टैग: ",
-            lastScannedTag] }, void 0, true
-          )] }, void 0, true
-
-        )] }, void 0, true
-
-
-      ) }, void 0, false
-    ));
-
+        {lastScannedTag && (
+          <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>टैग स्कैन सफल: {lastScannedTag}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };

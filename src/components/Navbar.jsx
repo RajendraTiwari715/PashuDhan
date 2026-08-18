@@ -8,6 +8,7 @@ export const Navbar = ({
   session,
   onOpenLogin,
   onLogout,
+  onOpenPashuProfile,
   onOpenScanner,
   onOpenAIVision,
   onSearchTag,
@@ -73,39 +74,43 @@ export const Navbar = ({
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Logo & Title */}
-          <div
-            className="flex items-center gap-2.5 cursor-pointer group"
-            onClick={() => setActiveTab('home')}
-          >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
-                <span className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">
-                  पशु
+          {/* Logo & Pashu Symbol Trigger */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onOpenPashuProfile}
+              className="flex items-center gap-2.5 group text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-2xl p-1 -m-1"
+              title="पशु सिंबल पर क्लिक करें: यूज़र लॉगिन जानकारी, पंजीकृत पशु व लॉगिन/लॉगआउट"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 shadow-md group-hover:scale-105 transition-all duration-300 relative">
+                <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+                  <span className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">
+                    पशु
+                  </span>
+                </div>
+                {/* Active user dot */}
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center">
+                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
                 </span>
               </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-wide">
-                  {t('app_name')}
-                </h1>
-                <div className="hidden sm:block">
-                  {session && getRoleBadge(session.role)}
+
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="text-lg sm:text-xl font-black text-slate-800 tracking-wide group-hover:text-emerald-700 transition-colors">
+                    {t('app_name')}
+                  </h1>
+                  <div className="hidden sm:block">
+                    {session && getRoleBadge(session.role)}
+                  </div>
                 </div>
+                <p className="text-[11px] text-slate-500 hidden md:block">
+                  {t('tagline')}
+                </p>
               </div>
-              <p className="text-[11px] text-slate-500 hidden md:block">
-                {t('tagline')}
-              </p>
-            </div>
+            </button>
           </div>
 
           {/* Right Action Icons & Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            
-            {/* Language Selector */}
-            <VoiceLanguageSelector />
-
             {/* Online Server Indicator - SHOW ONLY FOR ADMIN */}
             {isAdmin && (
               <div
@@ -138,25 +143,6 @@ export const Navbar = ({
               <QrCode className="w-4 h-4" />
               <span className="hidden sm:inline">{t('scan_qr')}</span>
             </button>
-
-            {/* Authentication Button */}
-            {session ? (
-              <button
-                onClick={onLogout}
-                className="p-2 sm:px-3 sm:py-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold text-xs flex items-center gap-1.5 transition-colors"
-              >
-                <LogOut className="w-4 h-4 text-rose-500" />
-                <span className="hidden md:inline">{t('logout')}</span>
-              </button>
-            ) : (
-              <button
-                onClick={onOpenLogin}
-                className="p-2 sm:px-3 sm:py-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-600 font-bold text-xs flex items-center gap-1.5 transition-colors"
-              >
-                <LogIn className="w-4 h-4 text-amber-500" />
-                <span>{t('login')}</span>
-              </button>
-            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, Navigation, Truck, QrCode, ShieldCheck, HeartPulse, PlusCircle, Utensils, Activity, MapPin, RefreshCw, CheckCircle2 } from 'lucide-react';
+import {
+  Building2,
+  Navigation,
+  Truck,
+  QrCode,
+  ShieldCheck,
+  HeartPulse,
+  PlusCircle,
+  Utensils,
+  Activity,
+  MapPin,
+  RefreshCw,
+  CheckCircle2,
+  Radio
+} from 'lucide-react';
+import { GaushalaLiveTrackingMap } from './GaushalaLiveTrackingMap';
 
 export const GaushalaModule = ({ animals }) => {
   const gaushalaAnimals = animals.filter((a) => a.gaushalaRecord || a.priorViolationsCount >= 2);
@@ -161,26 +176,18 @@ export const GaushalaModule = ({ animals }) => {
           </span>
         </div>
 
-        {activeStep === 1 && (
-          <div className="p-4 rounded-2xl bg-cyan-50 border border-cyan-200 space-y-2 text-xs">
-            <div className="font-bold text-cyan-800 flex items-center gap-2">
-              <Navigation className="w-4 h-4 text-cyan-600" />
-              <span>1. रेस्क्यू नेविगेशन GPS Pin Route (लाइव)</span>
+        {(activeStep === 1 || activeStep === 2) && (
+          <div className="space-y-4">
+            <div className="p-4 rounded-2xl bg-slate-900 text-white border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-amber-400 font-bold flex items-center gap-1.5">
+                  <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
+                  {activeStep === 1 ? '1. रेस्क्यू नेविगेशन GPS Pin Route' : '2. लोडिंग व ट्रांसपोर्ट Vehicle Tracking'}
+                </span>
+                <span className="text-slate-400 font-mono text-[11px]">वाहन: MP-04-GAU-9012</span>
+              </div>
+              <GaushalaLiveTrackingMap initialUnitId="ALPHA-1" />
             </div>
-            <p className="text-slate-700 font-medium">लोकेशन: {liveGps.address} | दूरी: 1.4 KM शेष | ईटीए: 6 मिनट</p>
-            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-              <div className="bg-cyan-600 h-full w-3/4 animate-pulse rounded-full"></div>
-            </div>
-          </div>
-        )}
-
-        {activeStep === 2 && (
-          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2 text-xs">
-            <div className="font-bold text-amber-800 flex items-center gap-2">
-              <Truck className="w-4 h-4 text-amber-600" />
-              <span>2. लोडिंग व ट्रांसपोर्ट Vehicle Live Tracking</span>
-            </div>
-            <p className="text-slate-700 font-medium">चालक: {liveGps.driver} | गति: {liveGps.speedKmph} KM/H | सुरक्षा लॉक: Engaged</p>
           </div>
         )}
 

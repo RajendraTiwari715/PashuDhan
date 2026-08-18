@@ -1,153 +1,133 @@
 import React, { useState } from 'react';
-import { CreditCard, CheckCircle2, ShieldCheck, Camera, Sparkles, X, RefreshCw } from 'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { CreditCard, CheckCircle2, ShieldCheck, Camera, Sparkles, X, RefreshCw } from 'lucide-react';
 
-
-
-
-
-
-
-
-
-
-
-
-
-export const AadhaarOCRModal = ({
-  isOpen,
-  onClose,
-  onOCRComplete
-}) => {
+export const AadhaarOCRModal = ({ isOpen, onClose, onOCRComplete }) => {
   const [isScanning, setIsScanning] = useState(false);
-  const [scannedResult, setScannedResult] = useState(
-
-
-
-
-
-    null);
+  const [scannedResult, setScannedResult] = useState(null);
 
   if (!isOpen) return null;
 
-  const handleStartOCR = () => {
+  const handleStartOCRScan = () => {
     setIsScanning(true);
     setScannedResult(null);
 
-    // Simulate AI OCR scanning process
     setTimeout(() => {
       setIsScanning(false);
-      const result = {
-        scannedName: 'रामस्वरूप पटेल (Ramswaroop Patel)',
-        aadhaarNo: '4521-8890-1204',
-        dob: '15/08/1985',
-        gender: 'MALE',
-        address: 'मकान नं. 45, ग्राम फंदा, जिला भोपाल, म.प्र. 462030'
+      const mockResult = {
+        aadhaarNumber: 'XXXX-XXXX-9482',
+        name: 'विक्रम सिंह पटेल (Sahiwal Owner)',
+        dob: '15/08/1986',
+        address: 'ग्राम पिपरिया, जिला भोपाल, मध्य प्रदेश - 462001',
+        isVerified: true
       };
-      setScannedResult(result);
-    }, 1800);
+      setScannedResult(mockResult);
+    }, 2000);
   };
 
-  const handleConfirm = () => {
-    if (scannedResult) {
+  const handleConfirmOwnerData = () => {
+    if (scannedResult && onOCRComplete) {
       onOCRComplete(scannedResult);
-      onClose();
     }
+    onClose();
   };
 
-  return (/*#__PURE__*/
-    _jsxDEV("div", { className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn", children: /*#__PURE__*/
-      _jsxDEV("div", { className: "glass-modal w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-700", children: [/*#__PURE__*/
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-200">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shadow-sm">
+            <CreditCard className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold">
+              UIDAI AI OCR v3.1
+            </span>
+            <h3 className="text-xl font-black text-slate-800 mt-0.5">
+              💳 आधार कार्ड AI ऑटो-रीडर
+            </h3>
+          </div>
+        </div>
 
-        _jsxDEV("button", {
-          onClick: onClose,
-          className: "absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors", children: /*#__PURE__*/
+        {/* Viewfinder scanner area */}
+        <div className="relative w-full h-52 rounded-2xl overflow-hidden border-2 border-blue-500/50 bg-slate-900 flex items-center justify-center shadow-inner">
+          <div className="absolute inset-4 border-2 border-dashed border-cyan-400 rounded-xl flex flex-col justify-between p-3 pointer-events-none">
+            <div className="flex justify-between text-[10px] font-mono font-bold text-cyan-300 bg-slate-900/80 px-2 py-0.5 rounded border border-cyan-500/40">
+              <span>[ALIGN AADHAAR CARD HERE]</span>
+              <span>OCR ACTIVE</span>
+            </div>
+            <div className="w-full h-0.5 bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 animate-pulse"></div>
+          </div>
 
-          _jsxDEV(X, { className: "w-5 h-5" }, void 0, false) }, void 0, false
-        ), /*#__PURE__*/
+          <div className="text-center p-4 space-y-2 z-10">
+            <Camera className="w-10 h-10 text-cyan-400 mx-auto animate-bounce" />
+            <p className="text-xs text-slate-300 font-medium">
+              कैमरे के सामने आधार कार्ड रखें
+            </p>
+          </div>
 
+          {isScanning && (
+            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xs flex flex-col items-center justify-center space-y-2">
+              <RefreshCw className="w-8 h-8 text-cyan-400 animate-spin" />
+              <p className="text-xs font-bold text-cyan-300 font-mono">
+                AI आधार टेक्स्ट पढ़ा जा रहा है...
+              </p>
+            </div>
+          )}
+        </div>
 
-        _jsxDEV("div", { className: "text-center mb-6", children: [/*#__PURE__*/
-          _jsxDEV("div", { className: "w-14 h-14 mx-auto mb-2 rounded-2xl bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-cyan-500/20", children: /*#__PURE__*/
-            _jsxDEV(CreditCard, { className: "w-7 h-7 text-slate-950" }, void 0, false) }, void 0, false
-          ), /*#__PURE__*/
-          _jsxDEV("h3", { className: "text-xl font-bold text-white", children: "आधार OCR स्कैनर (Aadhaar Auto-OCR)" }, void 0, false), /*#__PURE__*/
-          _jsxDEV("p", { className: "text-xs text-slate-400 mt-1", children: "पशुपालक के आधार कार्ड से डेटा स्वतः स्कैन एवं सत्यापित करें" }, void 0, false
+        {!scannedResult ? (
+          <button
+            onClick={handleStartOCRScan}
+            disabled={isScanning}
+            className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-2xl text-sm flex items-center justify-center gap-2 transition-all shadow-md"
+          >
+            <Sparkles className="w-5 h-5 text-amber-300" />
+            <span>AI आधार स्कैन एवं रीड शुरू करें</span>
+          </button>
+        ) : (
+          <div className="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 animate-fadeIn">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <span className="text-xs font-bold text-emerald-600 flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4" />
+                UIDAI सत्यापित आधार डेटा
+              </span>
+              <span className="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded font-mono font-bold border border-emerald-200">
+                100% Match
+              </span>
+            </div>
 
-          )] }, void 0, true
-        ),
+            <div className="space-y-1.5 text-xs text-slate-700">
+              <div>
+                <span className="text-slate-500 font-semibold">नाम: </span>
+                <span className="font-bold text-slate-800">{scannedResult.name}</span>
+              </div>
+              <div>
+                <span className="text-slate-500 font-semibold">आधार संख्या: </span>
+                <span className="font-mono font-bold text-slate-800">{scannedResult.aadhaarNumber}</span>
+              </div>
+              <div>
+                <span className="text-slate-500 font-semibold">पता: </span>
+                <span className="text-slate-700 font-medium">{scannedResult.address}</span>
+              </div>
+            </div>
 
-
-        !scannedResult && /*#__PURE__*/
-        _jsxDEV("div", { className: "relative aspect-[1.6/1] max-w-[320px] mx-auto rounded-2xl overflow-hidden border-2 border-dashed border-cyan-500/60 bg-slate-950 flex flex-col items-center justify-center mb-6 p-4 text-center", children:
-          isScanning ? /*#__PURE__*/
-          _jsxDEV("div", { className: "space-y-3", children: [/*#__PURE__*/
-            _jsxDEV(RefreshCw, { className: "w-10 h-10 text-cyan-400 animate-spin mx-auto" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { className: "text-xs font-mono text-cyan-300 block animate-pulse", children: "AI OCR स्कैनर आधार टेक्स्ट एक्सट्रैक्ट कर रहा है..." }, void 0, false
-
-            )] }, void 0, true
-          ) : /*#__PURE__*/
-
-          _jsxDEV("div", { className: "space-y-2", children: [/*#__PURE__*/
-            _jsxDEV(Camera, { className: "w-10 h-10 text-slate-600 mx-auto" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("p", { className: "text-xs text-slate-400", children: "आधार कार्ड का अगला हिस्सा कैमरे के सामने रखें" }, void 0, false
-
-            ), /*#__PURE__*/
-            _jsxDEV("button", {
-              type: "button",
-              onClick: handleStartOCR,
-              className: "mt-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 mx-auto transition-colors", children: [/*#__PURE__*/
-
-              _jsxDEV(Sparkles, { className: "w-4 h-4" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { children: "आधार कार्ड स्कैन करें" }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          ) }, void 0, false
-
-        ),
-
-
-
-        scannedResult && /*#__PURE__*/
-        _jsxDEV("div", { className: "space-y-4 mb-6 animate-fadeIn", children: [/*#__PURE__*/
-          _jsxDEV("div", { className: "p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 font-semibold", children: [/*#__PURE__*/
-            _jsxDEV(ShieldCheck, { className: "w-4 h-4 text-emerald-400 shrink-0" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "UIDAI सर्वर द्वारा आधार सफलतापूर्वक सत्यापित हुआ!" }, void 0, false)] }, void 0, true
-          ), /*#__PURE__*/
-
-          _jsxDEV("div", { className: "p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2 text-xs", children: [/*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between py-1 border-b border-slate-800", children: [/*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-400", children: "स्कैन किया नाम:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "font-bold text-white", children: scannedResult.scannedName }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between py-1 border-b border-slate-800", children: [/*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-400", children: "आधार संख्या:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "font-mono text-cyan-400 font-bold", children: scannedResult.aadhaarNo }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between py-1 border-b border-slate-800", children: [/*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-400", children: "जन्म तिथि:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-200", children: scannedResult.dob }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between py-1 border-b border-slate-800", children: [/*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-400", children: "लिंग:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-200", children: scannedResult.gender }, void 0, false)] }, void 0, true
-            ), /*#__PURE__*/
-            _jsxDEV("div", { className: "flex justify-between py-1", children: [/*#__PURE__*/
-              _jsxDEV("span", { className: "text-slate-400", children: "पता:" }, void 0, false), /*#__PURE__*/
-              _jsxDEV("span", { className: "text-right text-slate-300", children: scannedResult.address }, void 0, false)] }, void 0, true
-            )] }, void 0, true
-          ), /*#__PURE__*/
-
-          _jsxDEV("button", {
-            onClick: handleConfirm,
-            className: "w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3.5 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm", children: [/*#__PURE__*/
-
-            _jsxDEV(CheckCircle2, { className: "w-5 h-5" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "यह डेटा प्रयुक्त करें (Use Scanned Aadhaar Data)" }, void 0, false)] }, void 0, true
-          )] }, void 0, true
-        )] }, void 0, true
-
-
-      ) }, void 0, false
-    ));
-
+            <button
+              onClick={handleConfirmOwnerData}
+              className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition-colors shadow-sm"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>पशुपालक प्रोफ़ाइल में आधार डेटा सेव करें</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };

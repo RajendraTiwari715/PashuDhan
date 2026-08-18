@@ -15,14 +15,23 @@ import { AICattleVisionModal } from './components/AICattleVisionModal';
 import { WhatsAppNoticeModal } from './components/WhatsAppNoticeModal';
 import { BluetoothRFIDModal } from './components/BluetoothRFIDModal';
 import { SirenAlertModal } from './components/SirenAlertModal';
+import { PashuProfileModal } from './components/PashuProfileModal';
 
-import { getAnimals, getComplaints, getUserSession, setUserSession, initStorage, getRoleForPhone } from './services/storage';
+import {
+  getAnimals,
+  getComplaints,
+  getUserSession,
+  setUserSession,
+  initStorage,
+  getRoleForPhone
+} from './services/storage';
 
 export function App() {
   const [session, setSession] = useState(null);
   const [activeTab, setActiveTab] = useState('home');
 
   // Modals & Active Views
+  const [isPashuProfileModalOpen, setIsPashuProfileModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isScannerModalOpen, setIsScannerModalOpen] = useState(false);
   const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false);
@@ -58,26 +67,28 @@ export function App() {
     if (existingSession) {
       existingSession.role = getRoleForPhone(existingSession.phone);
       setSession(existingSession);
+    } else {
+      // Default to Master Admin so Overview & Analytics open directly
+      const defaultAdminSession = {
+        phone: '940778182',
+        role: 'admin',
+        isLoggedIn: true,
+        name: 'मुख्य प्रशासनिक अधिकारी (Master Admin)'
+      };
+      setSession(defaultAdminSession);
     }
     refreshData();
-    
-    if (window.location.pathname.startsWith('/admin') || existingSession?.role === 'admin') {
-      setActiveTab('admin');
-    }
   }, []);
 
-  const handleLoginSuccess = (newSession) => {
-    setSession(newSession);
-    if (newSession.role === 'admin') {
-      setActiveTab('admin');
-    } else {
-      setActiveTab('home');
-    }
+  const handleLoginSuccess = (userSession) => {
+    setSession(userSession);
+    refreshData();
   };
 
   const handleLogout = () => {
     setUserSession(null);
     setSession(null);
+    setSelectedAnimal(null);
     setActiveTab('home');
   };
 
@@ -86,16 +97,13 @@ export function App() {
   };
 
   const handleSelectBlankTagFromScanner = (tagId) => {
-    if (session?.role === 'admin' || session?.role === 'tagging_agent') {
-      setSelectedTagForLink(tagId);
-      setIsLinkTagModalOpen(true);
-    } else {
-      alert(`QR टैग "${tagId}" एक नया खाली टैग है। इसे लिंक करने के लिए टैगिंग एजेंट या एडमिन लॉगिन आवश्यक है।`);
-    }
+    setSelectedTagForLink(tagId);
+    setIsLinkTagModalOpen(true);
   };
 
   const handleVoiceSearchTag = (tagId) => {
-    const found = animals.find((a) => a.tagId.toUpperCase() === tagId.toUpperCase() || a.id.toUpperCase() === tagId.toUpperCase());
+    const cleanTag = tagId.trim().toUpperCase();
+    const found = animals.find(a => a.tagId.toUpperCase() === cleanTag);
     if (found) {
       setSelectedAnimal(found);
       alert(`वॉयस कमांड: गोवंश ${found.tagId} (${found.breed}) खोजा गया!`);
@@ -116,54 +124,57 @@ export function App() {
 
   const renderDashboardByRole = () => {
     if (!session || session.role === 'citizen') {
-      return (/*#__PURE__*/
-        _jsxDEV(UserDashboard, {
-          onOpenScanner: () => setIsScannerModalOpen(true),
-          onOpenComplaintForm: handleOpenComplaint,
-          onSelectAnimal: (animal) => setSelectedAnimal(animal),
-          complaints: complaints,
-          animals: animals }, void 0, false
-        ));
-
+      return (
+        <UserDashboard
+          onOpenScanner={() => setIsScannerModalOpen(true)}
+          onOpenComplaintForm={handleOpenComplaint}
+          onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+          complaints={complaints}
+          animals={animals}
+        />
+      );
     }
 
     switch (session.role) {
       case 'admin':
-        return (/*#__PURE__*/
-          _jsxDEV(AdminPortal, {
-            onOpenLinkTagModal: handleOpenLinkTagModal,
-            onSelectAnimal: (animal) => setSelectedAnimal(animal) }, void 0, false
-          ));
+        return (
+          <AdminPortal
+            onOpenLinkTagModal={handleOpenLinkTagModal}
+            onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+          />
+        );
 
       case 'tagging_agent':
-        return (/*#__PURE__*/
-          _jsxDEV(TaggingAgentDashboard, {
-            onOpenLinkTagModal: handleOpenLinkTagModal,
-            onSelectAnimal: (animal) => setSelectedAnimal(animal) }, void 0, false
-          ));
+        return (
+          <TaggingAgentDashboard
+            onOpenLinkTagModal={handleOpenLinkTagModal}
+            onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+          />
+        );
 
       case 'patrol_squad':
-        return /*#__PURE__*/_jsxDEV(PatrolSquadDashboard, {}, void 0, false);
+        return <PatrolSquadDashboard />;
       case 'pashu_malik':
-        return (/*#__PURE__*/
-          _jsxDEV(PashuMalikDashboard, {
-            userPhone: session.phone,
-            onSelectAnimal: (animal) => setSelectedAnimal(animal),
-            onOpenComplaint: handleOpenComplaint }, void 0, false
-          ));
+        return (
+          <PashuMalikDashboard
+            userPhone={session.phone}
+            onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+            onOpenComplaint={handleOpenComplaint}
+          />
+        );
 
       case 'gaushala_manager':
-        return /*#__PURE__*/_jsxDEV(GaushalaManagerDashboard, { animals: animals }, void 0, false);
+        return <GaushalaManagerDashboard animals={animals} />;
       default:
-        return (/*#__PURE__*/
-          _jsxDEV(UserDashboard, {
-            onOpenScanner: () => setIsScannerModalOpen(true),
-            onOpenComplaintForm: handleOpenComplaint,
-            onSelectAnimal: (animal) => setSelectedAnimal(animal),
-            complaints: complaints,
-            animals: animals }, void 0, false
-          ));
-
+        return (
+          <UserDashboard
+            onOpenScanner={() => setIsScannerModalOpen(true)}
+            onOpenComplaintForm={handleOpenComplaint}
+            onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+            complaints={complaints}
+            animals={animals}
+          />
+        );
     }
   };
 
@@ -185,21 +196,6 @@ export function App() {
       villageOrCity: 'भोपाल',
       pincode: '462011'
     },
-    fourPhotos: {
-      front: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
-      side: 'https://images.unsplash.com/photo-1570042707221-a18833919b48?auto=format&fit=crop&w=800&q=80',
-      back: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80',
-      tagCloseup: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80'
-    },
-    photos: ['https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=800&q=80'],
-    location: {
-      lat: 23.2599,
-      lng: 77.4126,
-      addressName: 'पिपलिया डेयरी फार्म, भोपाल',
-      city: 'भोपाल',
-      state: 'मध्य प्रदेश',
-      pincode: '462011'
-    },
     geoFence: {
       centerLat: 23.2599,
       centerLng: 77.4126,
@@ -210,128 +206,139 @@ export function App() {
     activeNotices: []
   };
 
-  return (/*#__PURE__*/
-    _jsxDEV("div", { className: "min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-500 selection:text-white", children: [/*#__PURE__*/
-
-
-      _jsxDEV(Navbar, {
-        session: session,
-        onOpenLogin: () => setIsLoginModalOpen(true),
-        onLogout: handleLogout,
-        onOpenScanner: () => setIsScannerModalOpen(true),
-        onOpenAIVision: () => setIsAIVisionModalOpen(true),
-        onOpenWhatsApp: () => setIsWhatsAppModalOpen(true),
-        onOpenBluetooth: () => setIsBluetoothModalOpen(true),
-        onSearchTag: handleVoiceSearchTag,
-        onOpenLinkTagModal: () => setIsLinkTagModalOpen(true),
-        activeTab: activeTab,
-        setActiveTab: (tab) => {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+      <Navbar
+        session={session}
+        onOpenLogin={() => setIsLoginModalOpen(true)}
+        onLogout={handleLogout}
+        onOpenPashuProfile={() => setIsPashuProfileModalOpen(true)}
+        onOpenScanner={() => setIsScannerModalOpen(true)}
+        onOpenAIVision={() => setIsAIVisionModalOpen(true)}
+        onOpenWhatsApp={() => setIsWhatsAppModalOpen(true)}
+        onOpenBluetooth={() => setIsBluetoothModalOpen(true)}
+        onSearchTag={handleVoiceSearchTag}
+        onOpenLinkTagModal={() => setIsLinkTagModalOpen(true)}
+        activeTab={activeTab}
+        setActiveTab={(tab) => {
           setSelectedAnimal(null);
           setActiveTab(tab);
-        } }, void 0, false
-      ), /*#__PURE__*/
+        }}
+      />
 
+      <main className="flex-1 pb-16">
+        {selectedAnimal ? (
+          <AnimalDetailsPage
+            animal={selectedAnimal}
+            onBack={() => setSelectedAnimal(null)}
+            onOpenComplaint={handleOpenComplaint}
+          />
+        ) : activeTab === 'admin' && session?.role === 'admin' ? (
+          <AdminPortal
+            onOpenLinkTagModal={handleOpenLinkTagModal}
+            onSelectAnimal={(animal) => setSelectedAnimal(animal)}
+          />
+        ) : (
+          renderDashboardByRole()
+        )}
+      </main>
 
-      _jsxDEV("main", { className: "flex-1 pb-16", children:
-        selectedAnimal ? /*#__PURE__*/
-        _jsxDEV(AnimalDetailsPage, {
-          animal: selectedAnimal,
-          onBack: () => setSelectedAnimal(null),
-          onOpenComplaint: handleOpenComplaint }, void 0, false
-        ) :
-        activeTab === 'admin' && session?.role === 'admin' ? /*#__PURE__*/
-        _jsxDEV(AdminPortal, {
-          onOpenLinkTagModal: handleOpenLinkTagModal,
-          onSelectAnimal: (animal) => setSelectedAnimal(animal) }, void 0, false
-        ) :
+      <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="font-semibold text-slate-700">
+              पशु-धन (PashuDhan) - राष्ट्रीय डिजिटल सनातनी गोवंश रक्षा एवं रेस्क्यू पोर्टल
+            </p>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              भूमिका आधारित डैशबोर्ड, QR कान टैग मैपिंग एवं स्वतः पशु विभाग अलर्ट प्रणाली
+            </p>
+          </div>
+          <div className="flex items-center gap-4 text-[11px] font-mono text-slate-400">
+            <span>मास्टर एडमिन: 940778182</span>
+            <span>|</span>
+            <span>पशु आपातकालीन: 1962</span>
+          </div>
+        </div>
+      </footer>
 
-        renderDashboardByRole() }, void 0, false
+      <PashuProfileModal
+        isOpen={isPashuProfileModalOpen}
+        onClose={() => setIsPashuProfileModalOpen(false)}
+        session={session}
+        animals={animals}
+        onLogout={handleLogout}
+        onOpenLogin={() => setIsLoginModalOpen(true)}
+        onSelectAnimal={(animal) => {
+          setSelectedAnimal(animal);
+          setIsPashuProfileModalOpen(false);
+        }}
+        onOpenLinkTagModal={() => {
+          setIsPashuProfileModalOpen(false);
+          setIsLinkTagModalOpen(true);
+        }}
+      />
 
-      ), /*#__PURE__*/
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
 
+      <QRScannerModal
+        isOpen={isScannerModalOpen}
+        onClose={() => setIsScannerModalOpen(false)}
+        onSelectAnimal={handleSelectAnimalFromScanner}
+        onSelectBlankTag={handleSelectBlankTagFromScanner}
+      />
 
-      _jsxDEV("footer", { className: "bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500", children: /*#__PURE__*/
-        _jsxDEV("div", { className: "max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4", children: [/*#__PURE__*/
-          _jsxDEV("div", { children: [/*#__PURE__*/
-            _jsxDEV("p", { className: "font-semibold text-slate-700", children: "पशु-धन (PashuDhan) - राष्ट्रीय डिजिटल सनातनी गोवंश रक्षा एवं रेस्क्यू पोर्टल" }, void 0, false
-
-            ), /*#__PURE__*/
-            _jsxDEV("p", { className: "text-[11px] text-slate-400 mt-0.5", children: "भूमिका आधारित डैशबोर्ड, QR कान टैग मैपिंग एवं स्वतः पशु विभाग अलर्ट प्रणाली" }, void 0, false
-
-            )] }, void 0, true
-          ), /*#__PURE__*/
-          _jsxDEV("div", { className: "flex items-center gap-4 text-[11px] font-mono text-slate-400", children: [/*#__PURE__*/
-            _jsxDEV("span", { children: "मास्टर एडमिन: 940778182" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "|" }, void 0, false), /*#__PURE__*/
-            _jsxDEV("span", { children: "पशु आपातकालीन: 1962" }, void 0, false)] }, void 0, true
-          )] }, void 0, true
-        ) }, void 0, false
-      ), /*#__PURE__*/
-
-
-      _jsxDEV(LoginModal, {
-        isOpen: isLoginModalOpen,
-        onClose: () => setIsLoginModalOpen(false),
-        onLoginSuccess: handleLoginSuccess }, void 0, false
-      ), /*#__PURE__*/
-
-      _jsxDEV(QRScannerModal, {
-        isOpen: isScannerModalOpen,
-        onClose: () => setIsScannerModalOpen(false),
-        onSelectAnimal: handleSelectAnimalFromScanner,
-        onSelectBlankTag: handleSelectBlankTagFromScanner }, void 0, false
-      ), /*#__PURE__*/
-
-      _jsxDEV(ComplaintFormModal, {
-        isOpen: isComplaintModalOpen,
-        onClose: () => setIsComplaintModalOpen(false),
-        targetAnimal: complaintTargetAnimal,
-        userPhone: session?.phone || '98765 43210',
-        onComplaintSubmitted: () => {
+      <ComplaintFormModal
+        isOpen={isComplaintModalOpen}
+        onClose={() => setIsComplaintModalOpen(false)}
+        targetAnimal={complaintTargetAnimal}
+        userPhone={session?.phone || '98765 43210'}
+        onComplaintSubmitted={() => {
           refreshData();
           setActiveTab('home');
-        } }, void 0, false
-      ), /*#__PURE__*/
+        }}
+      />
 
-      _jsxDEV(LinkTagModal, {
-        isOpen: isLinkTagModalOpen,
-        onClose: () => setIsLinkTagModalOpen(false),
-        initialTagId: selectedTagForLink,
-        onTagLinkedSuccess: (newAnimal) => {
+      <LinkTagModal
+        isOpen={isLinkTagModalOpen}
+        onClose={() => setIsLinkTagModalOpen(false)}
+        initialTagId={selectedTagForLink}
+        onTagLinkedSuccess={(newAnimal) => {
           refreshData();
           setSelectedAnimal(newAnimal);
-        } }, void 0, false
-      ), /*#__PURE__*/
+        }}
+      />
 
+      <AICattleVisionModal
+        isOpen={isAIVisionModalOpen}
+        onClose={() => setIsAIVisionModalOpen(false)}
+      />
 
-      _jsxDEV(AICattleVisionModal, {
-        isOpen: isAIVisionModalOpen,
-        onClose: () => setIsAIVisionModalOpen(false) }, void 0, false
-      ), /*#__PURE__*/
+      <WhatsAppNoticeModal
+        isOpen={isWhatsAppModalOpen}
+        onClose={() => setIsWhatsAppModalOpen(false)}
+        animal={selectedAnimal || fallbackAnimal}
+      />
 
-      _jsxDEV(WhatsAppNoticeModal, {
-        isOpen: isWhatsAppModalOpen,
-        onClose: () => setIsWhatsAppModalOpen(false),
-        animal: selectedAnimal || fallbackAnimal }, void 0, false
-      ), /*#__PURE__*/
-
-      _jsxDEV(BluetoothRFIDModal, {
-        isOpen: isBluetoothModalOpen,
-        onClose: () => setIsBluetoothModalOpen(false),
-        onTagDetected: (tagId) => {
+      <BluetoothRFIDModal
+        isOpen={isBluetoothModalOpen}
+        onClose={() => setIsBluetoothModalOpen(false)}
+        onTagDetected={(tagId) => {
           handleSelectBlankTagFromScanner(tagId);
           setIsBluetoothModalOpen(false);
-        } }, void 0, false
-      ), /*#__PURE__*/
+        }}
+      />
 
-      _jsxDEV(SirenAlertModal, {
-        isOpen: isSirenAlertModalOpen,
-        onClose: () => setIsSirenAlertModalOpen(false),
-        animal: selectedAnimal || fallbackAnimal }, void 0, false
-      )] }, void 0, true
-
-    ));
-
+      <SirenAlertModal
+        isOpen={isSirenAlertModalOpen}
+        onClose={() => setIsSirenAlertModalOpen(false)}
+        animal={selectedAnimal || fallbackAnimal}
+      />
+    </div>
+  );
 }
 
 export default App;

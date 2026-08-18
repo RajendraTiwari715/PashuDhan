@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAnimalByTagId, issueOffenseNotice } from '../services/storage';
+import { getAnimalByTagId, issueOffenseNotice, createComplaint } from '../services/storage';
 import { Radio, ShieldAlert, CheckCircle2, AlertTriangle, MapPin, Search, RefreshCw } from 'lucide-react';
 
 export const PatrolScannerView = ({ onScanResultProcessed }) => {
@@ -49,8 +49,32 @@ export const PatrolScannerView = ({ onScanResultProcessed }) => {
         } else {
           systemAction = 'Case B दर्ज: जिओ-फेंस उल्लंघन नोटिस प्रेषित।';
         }
+
+        // Auto-create complaint tied to owner
+        createComplaint({
+          animalTagId: cleanTag,
+          animalCategory: animal?.category || 'Gay',
+          animalBreed: animal?.breed || 'गोवंश',
+          complainantPhone: '9826022222',
+          complainantName: 'पेट्रोलिंग स्क्वाड (Patrol Squad NH-44)',
+          description: `हाईवे गश्त के दौरान पशु परिधि से ${distanceInput} KM बाहर पाया गया। स्वतः ई-नोटिस एवं शिकायत दर्ज।`,
+          cityName: 'राष्ट्रीय राजमार्ग 44, भोपाल (NH-44 Patrol Spot)',
+          status: 'In Progress (Patrol Notice Issued)'
+        });
       } else if (decisionCase === 'CASE_C_UNOWNED_STRAY_RESCUE') {
         systemAction = 'Case C दर्ज: अनारक्षित/लावारिस पशु अलर्ट! रेस्क्यू वाहन व गोशाला इनटेक टीम रवाना।';
+
+        // Auto-create rescue complaint
+        createComplaint({
+          animalTagId: cleanTag,
+          animalCategory: animal?.category || 'Gay',
+          animalBreed: animal?.breed || 'लावारिस गोवंश',
+          complainantPhone: '9826022222',
+          complainantName: 'पेट्रोलिंग स्क्वाड (Patrol Squad NH-44)',
+          description: 'सड़क पर लावारिस / घायल अवस्था में पशु मिला। गोशाला रेस्क्यू टीम आवंटित।',
+          cityName: 'सीहोर तिराहा, NH-44 भोपाल',
+          status: 'Dispatched to Pasu Vibhag'
+        });
       }
 
       // Update case history

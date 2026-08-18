@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PatrolScannerView } from './PatrolScannerView';
-import { Radio, Eye, ShieldAlert, Truck, Fuel, FileText, CheckCircle2 } from 'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+import { Radio, Eye, ShieldAlert, Truck, Fuel, FileText, CheckCircle2 } from 'lucide-react';
 
 
 export const PatrolSquadDashboard = () => {

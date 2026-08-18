@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { QRCodeSVG } from 'qrcode.react';
 import { GeoFenceMap } from './GeoFenceMap';
 import { NoticePenaltyModule } from './NoticePenaltyModule';
@@ -13,237 +12,208 @@ import {
   ArrowLeft,
   Share2,
   CheckCircle2,
-  CreditCard } from
-'lucide-react';import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+  CreditCard
+} from 'lucide-react';
 
-
-
-
-
-
-
-
-export const AnimalDetailsPage = ({
-  animal,
-  onBack,
-  onOpenComplaint
-}) => {
+export const AnimalDetailsPage = ({ animal, onBack, onOpenComplaint }) => {
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
 
   const getCategoryTitle = (cat) => {
     switch (cat) {
-      case 'Gay':return 'गाय (Cow)';
-      case 'Bail':return 'बैल (Ox / Bull)';
-      case 'Bachada':return 'बछड़ा / बछड़ी (Calf)';
-      case 'Bhais':return 'भैंस (Buffalo)';
-      case 'Bhed/Bakar':return 'भेड़ / बकरी (Sheep/Goat)';
-      default:return cat;
+      case 'Gay': return 'गाय (Cow)';
+      case 'Bail': return 'बैल (Ox / Bull)';
+      case 'Bachada': return 'बछड़ा / बछड़ी (Calf)';
+      case 'Bhais': return 'भैंस (Buffalo)';
+      case 'Bhed/Bakar': return 'भेड़ / बकरी (Sheep/Goat)';
+      default: return cat;
     }
   };
 
   const getHealthBadge = (health) => {
     switch (health) {
       case 'Healthy':
-        return /*#__PURE__*/_jsxDEV("span", { className: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5", children: [/*#__PURE__*/_jsxDEV(CheckCircle2, { className: "w-3.5 h-3.5" }, void 0, false), " पूर्ण स्वस्थ (Healthy)"] }, void 0, true);
+        return (
+          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5" /> पूर्ण स्वस्थ (Healthy)
+          </span>
+        );
       case 'Vaccinated':
-        return /*#__PURE__*/_jsxDEV("span", { className: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5", children: [/*#__PURE__*/_jsxDEV(ShieldCheck, { className: "w-3.5 h-3.5" }, void 0, false), " टीकाकरण संपन्न (Vaccinated)"] }, void 0, true);
+        return (
+          <span className="bg-cyan-50 text-cyan-700 border border-cyan-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5" /> टीकाकरण संपन्न (Vaccinated)
+          </span>
+        );
       case 'Needs Treatment':
-        return /*#__PURE__*/_jsxDEV("span", { className: "bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5", children: [/*#__PURE__*/_jsxDEV(Activity, { className: "w-3.5 h-3.5" }, void 0, false), " उपचार आवश्यक"] }, void 0, true);
+        return (
+          <span className="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <Activity className="w-3.5 h-3.5" /> उपचार आवश्यक
+          </span>
+        );
       case 'Injured':
-        return /*#__PURE__*/_jsxDEV("span", { className: "bg-rose-500/20 text-rose-300 border border-rose-500/30 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5", children: [/*#__PURE__*/_jsxDEV(AlertTriangle, { className: "w-3.5 h-3.5" }, void 0, false), " घायल (Injured)"] }, void 0, true);
+        return (
+          <span className="bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5" /> घायल (Injured)
+          </span>
+        );
+      default:
+        return (
+          <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold">
+            {health}
+          </span>
+        );
     }
   };
 
   const photoList = [
-  { title: 'सामने (Front)', url: animal.fourPhotos?.front || animal.photos[0] },
-  { title: 'साइड (Side)', url: animal.fourPhotos?.side || animal.photos[0] },
-  { title: 'पीछे (Back)', url: animal.fourPhotos?.back || animal.photos[0] },
-  { title: 'टैग (Tag Close-up)', url: animal.fourPhotos?.earTagCloseUp || animal.photos[0] }];
+    { title: 'सामने (Front)', url: animal.fourPhotos?.front || animal.photos[0] },
+    { title: 'साइड (Side)', url: animal.fourPhotos?.side || animal.photos[0] },
+    { title: 'पीछे (Back)', url: animal.fourPhotos?.back || animal.photos[0] },
+    { title: 'पहचान चिह्न', url: animal.fourPhotos?.mark || animal.photos[0] }
+  ];
 
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-6 space-y-6 animate-fadeIn">
+      {/* Navigation Top Header */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-slate-700 hover:text-slate-900 bg-white border border-slate-200 px-4 py-2 rounded-2xl text-xs font-bold shadow-sm transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>वापस जाएं (Back)</span>
+        </button>
 
-  return (/*#__PURE__*/
-    _jsxDEV("div", { className: "max-w-5xl mx-auto px-4 py-8 space-y-8 animate-fadeIn", children: [/*#__PURE__*/
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => alert(`पशुधन डिजिटल पासपोर्ट टैग URL शेयर किया गया: ${window.location.origin}/#/animal/${animal.tagId}`)}
+            className="flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 border border-blue-200 px-3.5 py-2 rounded-2xl hover:bg-blue-100 transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>डिजिटल पासपोर्ट शेयर करें</span>
+          </button>
+        </div>
+      </div>
 
+      {/* Main Info Header Card */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-mono font-bold">
+                {animal.tagId}
+              </span>
+              {getHealthBadge(animal.healthStatus)}
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-800">
+              {animal.name} ({getCategoryTitle(animal.category)})
+            </h1>
+            <p className="text-xs text-slate-500 font-medium">
+              नस्ल: <span className="font-bold text-slate-700">{animal.breed}</span> | उम्र: <span className="font-bold text-slate-700">{animal.age} वर्ष</span> | रंग: <span className="font-bold text-slate-700">{animal.color}</span>
+            </p>
+          </div>
 
-      _jsxDEV("div", { className: "flex items-center justify-between", children: [/*#__PURE__*/
-        _jsxDEV("button", {
-          onClick: onBack,
-          className: "flex items-center gap-2 text-slate-400 hover:text-white bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700 transition-colors text-xs font-medium", children: [/*#__PURE__*/
+          <div className="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+            <QRCodeSVG value={`https://pashudhan.gov.in/tag/${animal.tagId}`} size={70} />
+            <div className="text-[11px] space-y-1">
+              <span className="text-slate-400 font-mono block font-bold">ISO 11784 QR Tag</span>
+              <span className="text-slate-700 font-mono font-bold block">{animal.tagId}</span>
+              <span className="text-emerald-600 font-bold block text-[10px]">सत्यापित सरकारी टैग</span>
+            </div>
+          </div>
+        </div>
 
-          _jsxDEV(ArrowLeft, { className: "w-4 h-4" }, void 0, false), /*#__PURE__*/
-          _jsxDEV("span", { children: "वापस जाएं (Back)" }, void 0, false)] }, void 0, true
-        ), /*#__PURE__*/
+        {/* Photo Gallery Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-7 space-y-3">
+            <div className="relative h-72 sm:h-80 w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-inner">
+              <img
+                src={photoList[activePhotoIdx].url}
+                alt={animal.name}
+                className="w-full h-full object-cover"
+              />
+              <span className="absolute bottom-3 left-3 bg-slate-900/80 text-white text-xs px-3 py-1 rounded-full font-bold">
+                {photoList[activePhotoIdx].title}
+              </span>
+            </div>
 
-        _jsxDEV("div", { className: "flex items-center gap-2", children: [/*#__PURE__*/
-          _jsxDEV("span", { className: "text-xs text-slate-400 font-mono", children: ["ID: ", animal.id] }, void 0, true), /*#__PURE__*/
-          _jsxDEV("button", {
-            onClick: () => alert(`QR Tag Code: ${animal.tagId} shared!`),
-            className: "p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700", children: /*#__PURE__*/
+            <div className="grid grid-cols-4 gap-2">
+              {photoList.map((photo, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActivePhotoIdx(idx)}
+                  className={`h-20 rounded-xl overflow-hidden border-2 transition-all relative ${
+                    activePhotoIdx === idx
+                      ? 'border-blue-600 shadow-md scale-95'
+                      : 'border-slate-200 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <img src={photo.url} alt={photo.title} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
 
-            _jsxDEV(Share2, { className: "w-4 h-4" }, void 0, false) }, void 0, false
-          )] }, void 0, true
-        )] }, void 0, true
-      ), /*#__PURE__*/
+          {/* Owner & Identity Info */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                पशुपालक (स्वामी) विवरण
+              </h3>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center gap-2 text-slate-800 font-bold">
+                  <User className="w-4 h-4 text-blue-600" />
+                  <span>{animal.ownerName}</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-700 font-mono">
+                  <Phone className="w-4 h-4 text-emerald-600" />
+                  <span>{animal.ownerPhone}</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-700 font-mono">
+                  <CreditCard className="w-4 h-4 text-purple-600" />
+                  <span>आधार: {animal.ownerAadhaar || 'XXXX-XXXX-9482'}</span>
+                </div>
+              </div>
+            </div>
 
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                पंजीकरण तिथि एवं स्थिति
+              </h3>
+              <div className="space-y-2 text-xs text-slate-700 font-medium">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">पंजीकरण तिथि:</span>
+                  <span className="font-mono font-bold text-slate-800">{animal.registrationDate}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">जिओ-फेंस त्रिज्या:</span>
+                  <span className="font-mono font-bold text-emerald-600">{animal.geoFence?.radius || 500} मीटर</span>
+                </div>
+              </div>
+            </div>
 
-      _jsxDEV("div", { className: "glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-2xl relative overflow-hidden", children: [/*#__PURE__*/
+            <button
+              onClick={() => onOpenComplaint(animal)}
+              className="w-full bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 font-bold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 transition-colors shadow-sm"
+            >
+              <AlertTriangle className="w-4 h-4 text-rose-600" />
+              <span>आवारा विचरण या चोरी की शिकायत दर्ज करें</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
+      {/* Geofence Map Module */}
+      {animal.geoFence && (
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 className="text-base font-bold text-slate-800">
+            लाइव जिओ-फेंस एवं लोकेशन मैप
+          </h3>
+          <GeoFenceMap geoFence={animal.geoFence} animalName={animal.name} />
+        </div>
+      )}
 
-        _jsxDEV("div", { className: "absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl -z-10 pointer-events-none" }, void 0, false), /*#__PURE__*/
-
-        _jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: [/*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "flex flex-col items-center text-center space-y-4", children: [/*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "w-full aspect-square rounded-2xl overflow-hidden border-2 border-slate-700 shadow-lg relative group", children: [/*#__PURE__*/
-              _jsxDEV("img", {
-                src: photoList[activePhotoIdx].url,
-                alt: animal.breed,
-                className: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" }, void 0, false
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md text-emerald-400 font-mono font-bold text-xs px-3 py-1 rounded-full border border-emerald-500/40", children:
-                animal.tagId }, void 0, false
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "absolute bottom-3 left-3 right-3 bg-slate-950/80 backdrop-blur-md text-slate-200 text-[11px] font-semibold py-1 px-2 rounded-lg", children:
-                photoList[activePhotoIdx].title }, void 0, false
-              )] }, void 0, true
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "grid grid-cols-4 gap-2 w-full", children:
-              photoList.map((p, idx) => /*#__PURE__*/
-              _jsxDEV("button", {
-
-                onClick: () => setActivePhotoIdx(idx),
-                className: `aspect-square rounded-xl overflow-hidden border transition-all ${
-                activePhotoIdx === idx ? 'border-emerald-400 ring-2 ring-emerald-500/40 scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'}`, children: /*#__PURE__*/
-
-
-                _jsxDEV("img", { src: p.url, alt: p.title, className: "w-full h-full object-cover" }, void 0, false) }, idx, false
-              )
-              ) }, void 0, false
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "w-full p-4 rounded-2xl bg-slate-950/90 border border-slate-800 flex flex-col items-center", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "bg-white p-2.5 rounded-xl shadow-md mb-2", children: /*#__PURE__*/
-                _jsxDEV(QRCodeSVG, {
-                  value: `PASHUDHAN:${animal.tagId}`,
-                  size: 120,
-                  level: "H" }, void 0, false
-                ) }, void 0, false
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "text-[11px] font-mono text-emerald-400 font-semibold tracking-widest", children: ["EAR-TAG: ",
-                animal.tagId] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "text-[10px] text-slate-400 mt-0.5", children: "ISO 18000-6C 15-Digit RFID Standard" }, void 0, false
-
-              )] }, void 0, true
-            )] }, void 0, true
-
-          ), /*#__PURE__*/
-
-
-          _jsxDEV("div", { className: "md:col-span-2 space-y-6", children: [/*#__PURE__*/
-
-
-            _jsxDEV("div", { children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "flex items-center gap-3 flex-wrap mb-2", children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-bold", children:
-                  getCategoryTitle(animal.category) }, void 0, false
-                ),
-                getHealthBadge(animal.healthStatus)] }, void 0, true
-              ), /*#__PURE__*/
-
-              _jsxDEV("h2", { className: "text-2xl sm:text-3xl font-black text-white", children: ["नस्ल: ",
-                animal.breed] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("p", { className: "text-xs text-slate-400 mt-1 flex items-center gap-1.5", children: [/*#__PURE__*/
-                _jsxDEV(Calendar, { className: "w-3.5 h-3.5 text-slate-500" }, void 0, false), "पंजीकरण तिथि: ",
-                animal.registeredDate] }, void 0, true
-              )] }, void 0, true
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "grid grid-cols-2 sm:grid-cols-3 gap-3", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "p-3 rounded-2xl bg-slate-950/60 border border-slate-800", children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-[10px] text-slate-400 uppercase font-semibold block", children: "रंग (Color)" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "text-xs font-semibold text-slate-200", children: animal.color }, void 0, false)] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "p-3 rounded-2xl bg-slate-950/60 border border-slate-800", children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-[10px] text-slate-400 uppercase font-semibold block", children: "आयु (Age)" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "text-xs font-semibold text-slate-200", children: [animal.ageYears, " वर्ष"] }, void 0, true)] }, void 0, true
-              ), /*#__PURE__*/
-              _jsxDEV("div", { className: "p-3 rounded-2xl bg-slate-950/60 border border-slate-800", children: [/*#__PURE__*/
-                _jsxDEV("span", { className: "text-[10px] text-slate-400 uppercase font-semibold block", children: "लिंग (Gender)" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { className: "text-xs font-semibold text-slate-200", children: animal.gender === 'Female' ? 'मादा (Female)' : 'नर (Male)' }, void 0, false)] }, void 0, true
-              )] }, void 0, true
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3", children: [/*#__PURE__*/
-              _jsxDEV("div", { className: "flex items-center justify-between border-b border-slate-800/60 pb-2", children: [/*#__PURE__*/
-                _jsxDEV("h3", { className: "text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2", children: [/*#__PURE__*/
-                  _jsxDEV(User, { className: "w-4 h-4 text-emerald-400" }, void 0, false), "पशु मालिक का विवरण (Owner Information)"] }, void 0, true
-
-                ), /*#__PURE__*/
-                _jsxDEV("span", { className: "bg-cyan-500/20 text-cyan-300 text-[10px] px-2.5 py-0.5 rounded-full font-bold border border-cyan-500/30 flex items-center gap-1", children: [/*#__PURE__*/
-                  _jsxDEV(CreditCard, { className: "w-3 h-3" }, void 0, false), " Aadhaar OCR Verified"] }, void 0, true
-                )] }, void 0, true
-              ), /*#__PURE__*/
-
-              _jsxDEV("div", { className: "space-y-2 text-xs", children: [/*#__PURE__*/
-                _jsxDEV("div", { className: "flex justify-between items-center py-1 border-b border-slate-800/60", children: [/*#__PURE__*/
-                  _jsxDEV("span", { className: "text-slate-400", children: "मालिक का नाम:" }, void 0, false), /*#__PURE__*/
-                  _jsxDEV("span", { className: "font-semibold text-slate-200", children: animal.owner.name }, void 0, false)] }, void 0, true
-                ), /*#__PURE__*/
-                _jsxDEV("div", { className: "flex justify-between items-center py-1 border-b border-slate-800/60", children: [/*#__PURE__*/
-                  _jsxDEV("span", { className: "text-slate-400", children: "आधार संख्या (Aadhaar):" }, void 0, false), /*#__PURE__*/
-                  _jsxDEV("span", { className: "font-mono text-slate-300", children: animal.owner.aadhaarNumber }, void 0, false)] }, void 0, true
-                ), /*#__PURE__*/
-                _jsxDEV("div", { className: "flex justify-between items-center py-1 border-b border-slate-800/60", children: [/*#__PURE__*/
-                  _jsxDEV("span", { className: "text-slate-400", children: "संपर्क मोबाइल (OTP Validated):" }, void 0, false), /*#__PURE__*/
-                  _jsxDEV("a", { href: `tel:${animal.owner.phone}`, className: "font-mono text-cyan-400 hover:underline flex items-center gap-1", children: [/*#__PURE__*/
-                    _jsxDEV(Phone, { className: "w-3 h-3" }, void 0, false),
-                    animal.owner.phone] }, void 0, true
-                  )] }, void 0, true
-                ), /*#__PURE__*/
-                _jsxDEV("div", { className: "flex justify-between items-start py-1", children: [/*#__PURE__*/
-                  _jsxDEV("span", { className: "text-slate-400 shrink-0", children: "पंजीकृत पता:" }, void 0, false), /*#__PURE__*/
-                  _jsxDEV("span", { className: "text-right text-slate-300 leading-snug", children: animal.owner.fullAddress }, void 0, false)] }, void 0, true
-                )] }, void 0, true
-              )] }, void 0, true
-            ), /*#__PURE__*/
-
-
-            _jsxDEV("div", { className: "pt-2", children: /*#__PURE__*/
-              _jsxDEV("button", {
-                onClick: () => onOpenComplaint(animal),
-                className: "w-full bg-gradient-to-r from-amber-600 via-rose-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-rose-900/30 transition-all transform active:scale-98 flex items-center justify-center gap-3 text-sm sm:text-base border border-amber-400/30", children: [/*#__PURE__*/
-
-                _jsxDEV(AlertTriangle, { className: "w-5 h-5 animate-pulse" }, void 0, false), /*#__PURE__*/
-                _jsxDEV("span", { children: "लावारिस / सड़क पर घूम रहे पशु की शिकायत दर्ज करें" }, void 0, false)] }, void 0, true
-              ) }, void 0, false
-            )] }, void 0, true
-
-          )] }, void 0, true
-
-        )] }, void 0, true
-      ), /*#__PURE__*/
-
-
-      _jsxDEV(GeoFenceMap, {
-        geoFence: animal.geoFence,
-        currentLocation: animal.location }, void 0, false
-      ), /*#__PURE__*/
-
-
-      _jsxDEV(NoticePenaltyModule, {
-        animal: animal }, void 0, false
-      )] }, void 0, true
-
-    ));
-
+      {/* Legal Penalty & Notice Module */}
+      <NoticePenaltyModule animal={animal} />
+    </div>
+  );
 };
